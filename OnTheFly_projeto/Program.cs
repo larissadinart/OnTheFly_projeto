@@ -30,6 +30,7 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Usuário ou senha inválidos!\n\n");
                 Console.WriteLine("Aperte enter para continuar....");
                 Console.ReadKey();
+                Menu();
             }
         }
         public static void Opcoes()
@@ -38,7 +39,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -49,15 +50,15 @@ namespace OnTheFly_projeto
                     case 1:
                         Menu();
                         break;
-                    case 2:
+                    case 2:Cliente();
                         break;
-                    case 3:
+                    case 3:CiaAerea();
                         break;
-                    case 4:
+                    case 4:Destinos();
                         break;
-                    case 5:
+                    case 5:Voos();
                         break;
-                    case 6:
+                    case 6:Avioes();
                         break;
                     default:
                         break;
@@ -70,7 +71,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
 
@@ -82,7 +83,7 @@ namespace OnTheFly_projeto
                     case 1:
                         Opcoes();
                         break;
-                    case 2: //cadastrar
+                    case 2:Cadastro();
                         break;
                     case 3:
                         break;
@@ -100,10 +101,11 @@ namespace OnTheFly_projeto
         public static void CiaAerea()
         {
             int op;
+            CompanhiaAerea cia = new CompanhiaAerea("","");
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
 
@@ -115,7 +117,7 @@ namespace OnTheFly_projeto
                     case 1:
                         Opcoes();
                         break;
-                    case 2:
+                    case 2: cia.CadastrarCia();
                         break;
                     case 3:
                         break;
@@ -136,7 +138,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
 
@@ -168,7 +170,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
 
@@ -199,7 +201,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Volar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
 
