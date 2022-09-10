@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OnTheFly_projeto
 {
@@ -6,7 +7,9 @@ namespace OnTheFly_projeto
     {
         static void Main(string[] args)
         {
-            Menu();
+            List<Passageiro> passageiros = new List<Passageiro>(); 
+
+            Menu(); 
         }
 
         public static void Menu()
