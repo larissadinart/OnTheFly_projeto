@@ -79,10 +79,9 @@ namespace OnTheFly_projeto
             int op;
             do
             {
-                Console.Clear();
+                
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
 
                 switch (op)
                 {
@@ -95,7 +94,7 @@ namespace OnTheFly_projeto
                     case 2:
                         passageiro.CadastrarPassageiro(passageiros);
                         break;
-                    case 3:
+                    case 3: passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
                     case 4:
                         break;

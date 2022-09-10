@@ -34,24 +34,28 @@ namespace OnTheFly_projeto
         public void CadastrarPassageiro(List<Passageiro> passageiros) // não pode cadastrar o mesmo cpf 2x 
         {
             Passageiro passageiro = new Passageiro();
+
             Console.WriteLine("CADASTRO DE PASSAGEIRO");
             Console.WriteLine("Nome: ");
             passageiro.Nome = Console.ReadLine();
+            //validação de tamanho
             while (passageiro.Nome.Length > 50)
             {
                 Console.WriteLine("Digite um nome de até 50 digitos!");
                 Console.WriteLine("Nome: ");
                 passageiro.Nome = Console.ReadLine();
             }
+            //validação do tamanho e condição de cpf valido
             Console.WriteLine("CPF: ");
             passageiro.Cpf = Console.ReadLine();
-            while  (ValidarCpf(passageiro.Cpf) == false || passageiro.Cpf.Length < 11)
+            while (ValidarCpf(passageiro.Cpf) == false || passageiro.Cpf.Length < 11)
             {
                 Console.WriteLine("Cpf invalido, digite novamente");
                 Console.WriteLine("CPF: ");
                 this.Cpf = Console.ReadLine();
             }
 
+            //validação da condição de não existir dois registros com cpfs iguais
             while (LocalizarPassageiro(passageiros, passageiro.Cpf) == true)
             {
                 Console.WriteLine("Cpf já cadastrado, faça o cadastro com outro cpf");
@@ -62,6 +66,7 @@ namespace OnTheFly_projeto
 
             Console.WriteLine("Data de nascimento: ");
             passageiro.DataNascimento = DateTime.Parse(Console.ReadLine());
+
             Console.WriteLine("Sexo (M/F/N): ");
             passageiro.Sexo = char.Parse(Console.ReadLine());
             while (passageiro.Sexo != 'M' && passageiro.Sexo != 'F' && passageiro.Sexo != 'N')
@@ -70,36 +75,57 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Sexo (M/F/N): ");
                 this.Sexo = char.Parse(Console.ReadLine());
             }
+
             Console.WriteLine("Ultima Compra: ");
             passageiro.UltimaCompra = DateTime.Parse(Console.ReadLine());
+
             Console.WriteLine("Data Cadastro: ");
             passageiro.DataCadastro = DateTime.Parse(Console.ReadLine());
+
             Console.WriteLine("Situação (A-Ativo / I- Inativo): ");
             passageiro.Situacao = char.Parse(Console.ReadLine());
             while (passageiro.Situacao != 'A' && passageiro.Situacao != 'I')
             {
                 Console.WriteLine("Opção invalida, digite novamente");
                 Console.WriteLine("Situação(A - Ativo / I - Inativo): ");
-                this.Situacao = char.Parse(Console.ReadLine());
+                passageiro.Situacao = char.Parse(Console.ReadLine());
             }
 
             passageiros.Add(passageiro);
 
         }
-
-        public void ImprimirPassageiro() 
+        //Localiza pelo cpf e imprime um passageiro especifico 
+        public void ImprimirPassageiroEspecifico(List<Passageiro> passageiros)
         {
-            Console.WriteLine("Nome: "+ this.Nome);
-            Console.WriteLine("Data de nascimento: "+this.DataNascimento);
-            Console.WriteLine("CPF: "+this.Cpf);
-            Console.WriteLine("Sexo: "+this.Sexo);
-            Console.WriteLine("Ultima compra: "+this.UltimaCompra);
-            Console.WriteLine("Data cadastro: "+this.DataCadastro);
-            Console.WriteLine("Situação: "+this.Situacao);
-          
+            Console.WriteLine("Digite o cpf: ");
+            string cpf = Console.ReadLine();
+            Passageiro encontrouPassageiro = passageiros.Find(passageiro => passageiro.Cpf == cpf);
+
+            if (encontrouPassageiro == null)
+            {
+                Console.WriteLine("Não existe um registro para esse cpf");
+            }
+
+            else
+            {
+                Console.WriteLine("Nome: " + encontrouPassageiro.Nome);
+                Console.WriteLine("CPF: " + encontrouPassageiro.Cpf);
+                Console.WriteLine("Data Nascimento: " + encontrouPassageiro.DataNascimento);
+                Console.WriteLine("Sexo: " + encontrouPassageiro.Sexo);
+                Console.WriteLine("Ultima Compra: " + encontrouPassageiro.UltimaCompra);
+                Console.WriteLine("Data cadastro: " + encontrouPassageiro.DataCadastro);
+                Console.WriteLine("Situacao: " + encontrouPassageiro.Situacao);
+            }
+
         }
 
-        public bool LocalizarPassageiro(List<Passageiro> passageiros, string cpf) //Localizar um passageiro espeficifico pelo cpf
+        public void ImprimirTodosPassageiros() // menos os com o status Inativo 
+        {
+
+        }
+
+        //Localizar um passageiro espeficifico pelo cpf (usado na validação de cadastro) 
+        public bool LocalizarPassageiro(List<Passageiro> passageiros, string cpf)
         {
             Passageiro encontrouPassageiro = passageiros.Find(passageiro => passageiro.Cpf == cpf);
             if (encontrouPassageiro == null)
@@ -113,12 +139,8 @@ namespace OnTheFly_projeto
             }
         }
 
-
-        public void EditarPassageiro() // edita campos selecionados (menos o do cpf) 
-        {
-
-        }
-        public void AlterarSituacao()
+        // edita campos selecionados (menos o do cpf) 
+        public void EditarPassageiro(List<Passageiro> passageiros, string nome, string cpf, DateTime dataNascimento, char sexo, DateTime ultimaCompra, DateTime dataCadastro, char situacao)
         {
 
         }
