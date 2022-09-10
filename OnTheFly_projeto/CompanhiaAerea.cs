@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,12 @@ namespace OnTheFly_projeto
         {
             String cnpj = "", razaoSocial = "";
             DateTime dataAbertura;
-            DateTime ultimoVoo;
+            DateTime ultimoVoo = DateTime.Now;
             DateTime dataCadastro = DateTime.Now;
-            char situacao = ' ';
+            char situacao;
 
             CompanhiaAerea ciaAerea = new CompanhiaAerea(cnpj, razaoSocial);
-
+            Console.Clear();
             Console.WriteLine("Digite o CNPJ da Companhia Aérea (somente números): ");
             cnpj = Console.ReadLine();
             if (ValidarCnpj(cnpj))
@@ -46,9 +47,9 @@ namespace OnTheFly_projeto
                     {
                         Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
                         razaoSocial = Console.ReadLine();
+
                     } while (razaoSocial.Length > 50);
-                    Console.WriteLine("Digite a data do último Vôo: ");
-                    ultimoVoo = DateTime.Parse(Console.ReadLine());
+
                     Console.WriteLine("Digite a situação: \nA-Ativo\nI-Inativo");
                     try
                     {
@@ -58,6 +59,7 @@ namespace OnTheFly_projeto
                     {
                         Console.WriteLine("Opção inválida!");
                     }
+                    GravarArquivo(ciaAerea);
                 }
                 else
                 {
@@ -122,11 +124,40 @@ namespace OnTheFly_projeto
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
-
-        public override string ToString()
+        public void GravarArquivo(CompanhiaAerea ciaAerea)
         {
-            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura}\nData Do Último Vôo: {UltimoVoo}\nData de Cadastro: {DataCadastro}\nSituação: {Situacao}";
+            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCias.txt");
+            sw.WriteLine(ciaAerea.ToString());
+            sw.Close();
         }
+        public void LerArquivo()
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCias.txt");
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+                Console.WriteLine("Fim do arquivo.");
+
+            }catch(Exception e)
+            {
+                Console.WriteLine("Erro: " + e.Message);
+            }
+
+
+
+        }
+        public override string ToString() //NÃO ESTÁ IMPRIMINDO AS INFOS
+        {
+            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}";
+        }
+        
 
     }
 }

@@ -11,6 +11,7 @@ namespace OnTheFly_projeto
 
         public static void Menu()
         {
+            Console.Clear();
             Console.WriteLine(">>>>> BEM VINDO AO AEROPORTO ON THE FLY! <<<<<\n\n");
             Console.WriteLine("Faça seu login para entrar: \n");
             string usuario, usu = "admin";
