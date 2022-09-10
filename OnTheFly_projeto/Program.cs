@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OnTheFly_projeto
 {
@@ -61,13 +62,14 @@ namespace OnTheFly_projeto
                     case 4:
                         break;
                     case 5:
+                        Voos();
                         break;
                     case 6:
                         break;
                     default:
                         break;
                 }
-            } while (op < 0 || op > 3);
+            } while (op < 0 || op > 6);
         }
         public static void Cliente()
         {
@@ -175,28 +177,34 @@ namespace OnTheFly_projeto
                 Console.Clear();
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
+                List<Voo> listaVoos = new List<Voo>();
+                Voo voo = new Voo();
+                List<string> destinos = new List<string>();
 
                 switch (op)
                 {
                     case 0:
-                        Environment.Exit(0);
+                        Environment.Exit(0); //OK
                         break;
                     case 1:
-                        Opcoes();
+                        Opcoes(); //OK
                         break;
-                    case 2:
+                    case 2: //cadastrar
+                        voo.CadastrarVoo(voo);
+                        listaVoos.Add(voo);
                         break;
-                    case 3:
+                    case 3: //localizar OK
+                        voo.LocalizarVoo(listaVoos, voo.Id);
                         break;
-                    case 4:
+                    case 4: //editar
+                        voo.EditarVoo(listaVoos);
                         break;
-                    case 5:
+                    case 5://imprimir por registro.
                         break;
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (true);
         }
         public static void Avioes()
         {
