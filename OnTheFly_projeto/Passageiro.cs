@@ -31,47 +31,60 @@ namespace OnTheFly_projeto
             this.Situacao = situacao;
         }
 
-        public void CadastrarPassageiro() // não pode cadastrar o mesmo cpf 2x 
+        public void CadastrarPassageiro(List<Passageiro> passageiros) // não pode cadastrar o mesmo cpf 2x 
         {
+            Passageiro passageiro = new Passageiro();
             Console.WriteLine("CADASTRO DE PASSAGEIRO");
             Console.WriteLine("Nome: ");
-            this.Nome = Console.ReadLine();
-            while (this.Nome.Length > 50)
+            passageiro.Nome = Console.ReadLine();
+            while (passageiro.Nome.Length > 50)
             {
                 Console.WriteLine("Digite um nome de até 50 digitos!");
                 Console.WriteLine("Nome: ");
-                this.Nome = Console.ReadLine();
+                passageiro.Nome = Console.ReadLine();
             }
             Console.WriteLine("CPF: ");
-            this.Cpf = Console.ReadLine();
-            while  (ValidarCpf(this.Cpf) == false || this.Cpf.Length < 11)
+            passageiro.Cpf = Console.ReadLine();
+            while  (ValidarCpf(passageiro.Cpf) == false || passageiro.Cpf.Length < 11)
             {
                 Console.WriteLine("Cpf invalido, digite novamente");
                 Console.WriteLine("CPF: ");
                 this.Cpf = Console.ReadLine();
             }
+
+            while (LocalizarPassageiro(passageiros, passageiro.Cpf) == true)
+            {
+                Console.WriteLine("Cpf já cadastrado, faça o cadastro com outro cpf");
+                Console.WriteLine("CPF: ");
+                passageiro.Cpf = Console.ReadLine();
+
+            }
+
             Console.WriteLine("Data de nascimento: ");
-            this.DataNascimento = DateTime.Parse(Console.ReadLine());
+            passageiro.DataNascimento = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Sexo (M/F/N): ");
-            this.Sexo = char.Parse(Console.ReadLine());
-            while (this.Sexo != 'M' && this.Sexo != 'F' && this.Sexo != 'N') ; 
+            passageiro.Sexo = char.Parse(Console.ReadLine());
+            while (passageiro.Sexo != 'M' && passageiro.Sexo != 'F' && passageiro.Sexo != 'N')
             {
                 Console.WriteLine("Opção invalida, digite novamente");
                 Console.WriteLine("Sexo (M/F/N): ");
                 this.Sexo = char.Parse(Console.ReadLine());
             }
             Console.WriteLine("Ultima Compra: ");
-            this.UltimaCompra = DateTime.Parse(Console.ReadLine());
+            passageiro.UltimaCompra = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Data Cadastro: ");
-            this.DataCadastro = DateTime.Parse(Console.ReadLine());
+            passageiro.DataCadastro = DateTime.Parse(Console.ReadLine());
             Console.WriteLine("Situação (A-Ativo / I- Inativo): ");
-            this.Situacao = char.Parse(Console.ReadLine());
-            while (this.Situacao != 'A' && this.Situacao != 'I')
+            passageiro.Situacao = char.Parse(Console.ReadLine());
+            while (passageiro.Situacao != 'A' && passageiro.Situacao != 'I')
             {
                 Console.WriteLine("Opção invalida, digite novamente");
                 Console.WriteLine("Situação(A - Ativo / I - Inativo): ");
                 this.Situacao = char.Parse(Console.ReadLine());
             }
+
+            passageiros.Add(passageiro);
+
         }
 
         public void ImprimirPassageiro() 
@@ -86,9 +99,18 @@ namespace OnTheFly_projeto
           
         }
 
-        public void LocalizarPassageiro() //Localizar um passageiro espeficifico pelo cpf e imprimir 
+        public bool LocalizarPassageiro(List<Passageiro> passageiros, string cpf) //Localizar um passageiro espeficifico pelo cpf
         {
-            
+            Passageiro encontrouPassageiro = passageiros.Find(passageiro => passageiro.Cpf == cpf);
+            if (encontrouPassageiro == null)
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
         }
 
 

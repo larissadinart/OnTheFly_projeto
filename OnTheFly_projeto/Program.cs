@@ -7,9 +7,7 @@ namespace OnTheFly_projeto
     {
         static void Main(string[] args)
         {
-            List<Passageiro> passageiros = new List<Passageiro>(); 
-
-            Menu(); 
+            Menu();
         }
 
         public static void Menu()
@@ -53,23 +51,31 @@ namespace OnTheFly_projeto
                     case 1:
                         Menu();
                         break;
-                    case 2:Cliente();
+                    case 2:
+                        Cliente();
                         break;
-                    case 3:CiaAerea();
+                    case 3:
+                        CiaAerea();
                         break;
-                    case 4:Destinos();
+                    case 4:
+                        Destinos();
                         break;
-                    case 5:Voos();
+                    case 5:
+                        Voos();
                         break;
-                    case 6:Avioes();
+                    case 6:
+                        Avioes();
                         break;
                     default:
                         break;
                 }
-            } while (op < 0 || op > 3);
+            } while (op > 0 || op < 6);
         }
         public static void Cliente()
         {
+            List<Passageiro> passageiros = new List<Passageiro>();
+            Passageiro passageiro = new Passageiro();
+
             int op;
             do
             {
@@ -86,7 +92,8 @@ namespace OnTheFly_projeto
                     case 1:
                         Opcoes();
                         break;
-                    case 2:Cadastro();
+                    case 2:
+                        passageiro.CadastrarPassageiro(passageiros);
                         break;
                     case 3:
                         break;
@@ -99,12 +106,12 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 6);
         }
         public static void CiaAerea()
         {
             int op;
-            CompanhiaAerea cia = new CompanhiaAerea("","");
+            CompanhiaAerea cia = new CompanhiaAerea("", "");
             do
             {
                 Console.Clear();
@@ -120,7 +127,8 @@ namespace OnTheFly_projeto
                     case 1:
                         Opcoes();
                         break;
-                    case 2: cia.CadastrarCia();
+                    case 2:
+                        cia.CadastrarCia();
                         break;
                     case 3:
                         break;
@@ -133,7 +141,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 6);
         }
         public static void Destinos()
         {
@@ -164,7 +172,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 5);
 
         }
         public static void Voos()
@@ -196,7 +204,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 5);
         }
         public static void Avioes()
         {
@@ -227,7 +235,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 5);
         }
         public static void Cadastro()
         {
@@ -254,59 +262,63 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 || op < 5);
         }
         public static void ClientesRestritos()
         {
             int op;
-
-            Console.Clear();
-            Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cliente\n3- Remover Cliente\n4- Visualizar lista\n0- Sair");
-            op = int.Parse(Console.ReadLine());
-
-            switch (op)
+            do
             {
-                case 1:
-                    Cadastro();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 0:
-                    Environment.Exit(0);
-                    break;
-                default:
-                    break;
+                Console.Clear();
+                Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cliente\n3- Remover Cliente\n4- Visualizar lista\n0- Sair");
+                op = int.Parse(Console.ReadLine());
 
-            }
+                switch (op)
+                {
+                    case 1:
+                        Cadastro();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        break;
+
+                }
+            } while (op < 0 || op > 5);
         }
         public static void CiasBloqueadas()
         {
             int op;
-
-            Console.Clear();
-            Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cia. Aérea\n3- Remover Cia. Aérea\n4- Visualizar lista\n0- Sair");
-            op = int.Parse(Console.ReadLine());
-            switch (op)
+            do
             {
-                case 1:
-                    Cadastro();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 0:
-                    Environment.Exit(0);
-                    break;
-                default:
-                    break;
-            }
+                Console.Clear();
+                Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cia. Aérea\n3- Remover Cia. Aérea\n4- Visualizar lista\n0- Sair");
+                op = int.Parse(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        Cadastro();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            } while (op > 0 || op < 5);
         }
 
     }
