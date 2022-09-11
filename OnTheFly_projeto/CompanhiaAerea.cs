@@ -10,27 +10,39 @@ namespace OnTheFly_projeto
     internal class CompanhiaAerea
     {
         public String Cnpj { get; set; } // CHAVE!!! 
-        public String RazaoSocial { get; set; } //ate 50 digitos
-        public DateTime DataAbertura { get; set; } // não poderemos cadastrar empresas com menos de 6 meses de abertura
-        public DateTime UltimoVoo { get; set; }//no momento do cadastro pode ser a data atual
-        public DateTime DataCadastro { get; set; } //data atual do sistema
-        public char Situacao { get; set; } //A-Ativou ou I-Inativo
+        public String RazaoSocial { get; set; }
+        public DateTime DataAbertura { get; set; }
+        public DateTime UltimoVoo { get; set; }
+        public DateTime DataCadastro { get; set; }
+        public char Situacao { get; set; }
 
-        public CompanhiaAerea(String cnpj, string razaoSocial)
+
+        public CompanhiaAerea()
+        {
+
+        }
+        public CompanhiaAerea(String cnpj, String razaoSocial, DateTime dataAbertura, DateTime ultimoVoo, DateTime dataCadastro, char situacao)
         {
             this.Cnpj = cnpj;
             this.RazaoSocial = razaoSocial;
+            this.DataAbertura = dataAbertura;
+            this.UltimoVoo = ultimoVoo;
+            this.DataCadastro = dataCadastro;
+            this.Situacao = situacao;
         }
+        public CompanhiaAerea(string cnpj)
+        {
 
-        public CompanhiaAerea CadastrarCia()
+        }
+        public CompanhiaAerea CadastrarCia() ///VALIDAR SE CPF JA EXISTE NA LISTA
         {
             String cnpj = "", razaoSocial = "";
-            DateTime dataAbertura;
+            DateTime dataAbertura = new DateTime();
             DateTime ultimoVoo = DateTime.Now;
             DateTime dataCadastro = DateTime.Now;
-            char situacao;
+            char situacao = 'A';
 
-            CompanhiaAerea ciaAerea = new CompanhiaAerea(cnpj, razaoSocial);
+            CompanhiaAerea ciaAerea = new CompanhiaAerea(cnpj, razaoSocial, dataAbertura, ultimoVoo, dataCadastro, situacao);
             Console.Clear();
             Console.WriteLine("Digite o CNPJ da Companhia Aérea (somente números): ");
             cnpj = Console.ReadLine();
@@ -50,22 +62,11 @@ namespace OnTheFly_projeto
 
                     } while (razaoSocial.Length > 50);
 
-                    Console.WriteLine("Digite a situação: \nA-Ativo\nI-Inativo");
-                    try
-                    {
-                        situacao = char.Parse(Console.ReadLine());
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Opção inválida!");
-                    }
-                    GravarArquivo(ciaAerea);
                 }
                 else
                 {
                     Console.WriteLine("Impossível cadastrar! Tempo de abertura de empresa menor que 6 meses!\n\nTecle enter para continuar...");
                     Console.ReadKey();
-                    CadastrarCia();
                 }
             }
             else
@@ -124,40 +125,13 @@ namespace OnTheFly_projeto
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
-        public void GravarArquivo(CompanhiaAerea ciaAerea)
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCias.txt");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public void LerArquivo()
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCias.txt");
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("Fim do arquivo.");
-
-            }catch(Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-
-
-
-        }
         public override string ToString() //NÃO ESTÁ IMPRIMINDO AS INFOS
         {
             return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}";
         }
-        
-
     }
 }
+
+
+
+
