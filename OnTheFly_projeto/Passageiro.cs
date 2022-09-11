@@ -219,6 +219,40 @@ namespace OnTheFly_projeto
             }
         }
 
+        public void InserirRestrito(List<string> restritos)
+        {
+            Console.WriteLine("Digite o cpf restrito: ");
+            string cpf = Console.ReadLine();
+            while(ValidarCpf(cpf) == false || cpf.Length < 11)
+            {
+                Console.WriteLine("Cpf invalido, insira novamente: ");
+                cpf = Console.ReadLine();
+            }
+
+            string encontrouRestrito = restritos.Find(restrito => restrito == cpf);
+
+            if (encontrouRestrito != null)
+            {
+                Console.WriteLine("Esse cpf já existe na lista de restritos!");
+                Console.WriteLine("Impossivel inserir novamente!");
+            }
+
+            else
+            {
+                restritos.Add(cpf);
+            }
+        }
+
+        public void LocalizarRestrito(List<string> restritos)
+        {
+
+        }
+
+        public void RetirarRestrito(List<string> restritos)
+        {
+
+        }
+
         public bool ValidarCpf(string cpf)
         {
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };

@@ -100,7 +100,7 @@ namespace OnTheFly_projeto
                         break;
                     case 5: passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
-                    case 6: //restritos
+                    case 6: ClientesRestritos();
                         break;
                     default:
                         break;
@@ -265,6 +265,9 @@ namespace OnTheFly_projeto
         }
         public static void ClientesRestritos()
         {
+            List<string> restritos = new List<string>();
+            Passageiro restrito = new Passageiro(); 
+
             int op;
             do
             {
@@ -277,7 +280,7 @@ namespace OnTheFly_projeto
                     case 1:
                         Cadastro();
                         break;
-                    case 2:
+                    case 2: restrito.InserirRestrito(restritos);
                         break;
                     case 3:
                         break;
