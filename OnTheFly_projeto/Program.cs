@@ -172,31 +172,30 @@ namespace OnTheFly_projeto
         public static void Voos()
         {
             int op;
+            List<Voo> listaVoos = new List<Voo>();
+            Voo voo = new Voo();
             do
             {
                 Console.Clear();
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-                List<Voo> listaVoos = new List<Voo>();
-                Voo voo = new Voo();
                 List<string> destinos = new List<string>();
 
                 switch (op)
                 {
                     case 0:
-                        Environment.Exit(0); //OK
+                        Environment.Exit(0); // [OK]
                         break;
                     case 1:
-                        Opcoes(); //OK
+                        Opcoes(); // [OK]
                         break;
-                    case 2: //cadastrar
-                        voo.CadastrarVoo(voo);
-                        listaVoos.Add(voo);
+                    case 2: //cadastrar [OK]
+                        voo.CadastrarVoo(listaVoos);
                         break;
-                    case 3: //localizar OK
-                        voo.LocalizarVoo(listaVoos, voo.Id);
+                    case 3: //localizar [OK]
+                        voo.LocalizarVoo(listaVoos);
                         break;
-                    case 4: //editar
+                    case 4: //editar [em desenvolvimetno]
                         voo.EditarVoo(listaVoos);
                         break;
                     case 5://imprimir por registro.

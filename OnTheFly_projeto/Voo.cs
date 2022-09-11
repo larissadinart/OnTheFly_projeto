@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading;
 
 namespace OnTheFly_projeto
 {
@@ -12,15 +14,13 @@ namespace OnTheFly_projeto
         public DateTime DataVoo { get; set; } //data da partida
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
-
         public Voo()
         {
 
         }
-        public Voo(String destino, string aeronave, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo )
+        public Voo(String destino, string aeronave, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo)
         {
             int valorId = RandomCadastroVoo();
-
             this.Id = "V" + valorId.ToString();//validar ID
             this.Destino = destino;
             this.Aeronave = aeronave;
@@ -30,25 +30,22 @@ namespace OnTheFly_projeto
         }
         private static int RandomCadastroVoo()
         {
-            Random numId = new Random();
-            int valorId = 0;
-            int[] verificador = new int[9999];
-            
-            for (int i = 0; i < verificador.Length; i++)
+            Random rand = new Random();
+            int[] numero = new int[100];
+            int aux = 0;
+            for (int k = 0; k < numero.Length; k++)
             {
-                valorId = numId.Next(1000, 9999);
-                for (int j = 0; j < verificador.Length; j++)
+                int rnd = 0;
+                do
                 {
-                    if (verificador[j] == valorId)
-                    {
-                        valorId = numId.Next(1000, 9999);
-                    } 
-                }
-                verificador[i] = valorId;
+                    rnd = rand.Next(1000, 9999);
+                } while (numero.Contains(rnd));
+                numero[k] = rnd;
+                aux = numero[k];
             }
-            return verificador[valorId];
+            return aux;
         }
-        public void CadastrarVoo(Voo voo)
+        public void CadastrarVoo(List<Voo> listaDeVoo)
         {
             Aeronave aeronave = new Aeronave();
             Console.Clear();
@@ -73,35 +70,31 @@ namespace OnTheFly_projeto
                 Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n'A'- Ativo \n'C' - Cancelado");
                 situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
             }
-            new Voo(destinoVoo, IdentificacaoAeronave, dataVoo, dataCadastro, situacaoVoo);
-            Console.WriteLine(voo.ImprimirVoo());
+            Voo novoVoo = new Voo(destinoVoo, IdentificacaoAeronave, dataVoo, dataCadastro, situacaoVoo);
+            listaDeVoo.Add(novoVoo);
+            Console.Clear();
+            Console.WriteLine(novoVoo.ImprimirVoo());
+            Console.WriteLine("Aperte uma tecla para prosseguir: ");
+            Console.ReadKey();
         }
-
-        public void LocalizarVoo(List<Voo> listaVoos, string idVoo)
+        public void LocalizarVoo(List<Voo> listaDeVoo)
         {
             Console.Clear();
             Console.WriteLine("Opção: Localizar Voo");
             Console.WriteLine("Informe seu ID de voo para procurarmos em nosso Banco de Dados: ");
-            idVoo = Console.ReadLine();
-            Voo buscaIdVoo = null;
-            foreach (Voo voo in listaVoos)
+            string idVoo = Console.ReadLine();
+            Voo encontrouVoo = listaDeVoo.Find(Voo => Voo.Id == idVoo);
+            if (encontrouVoo == null)
             {
-                if (idVoo == voo.Id && voo.Situacao == 'A')
-                {
-                    buscaIdVoo = voo;
-                }
-            }
-            if (buscaIdVoo == null)
-            {
-                Console.WriteLine("O voo com Id: " + idVoo + " não foi encontrado.");
-                Console.WriteLine("Pressione uma tecla para continuar");
+                Console.WriteLine("Não existe um registro para esse Id de Voo");
+                Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("O Voo de Id: " + idVoo + " foi encontrado.");
-                Console.WriteLine(buscaIdVoo.ImprimirVoo());
-                Console.WriteLine("Pressione uma tecla para continuar");
+                Console.WriteLine("--------------------------------------------");
+                Console.WriteLine(encontrouVoo.ImprimirVoo());
+                Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }
         }
@@ -122,12 +115,14 @@ namespace OnTheFly_projeto
             destinoVoo.Add("GIG"); // - Aeroporto Internacional do Rio de Janeiro
 
             Console.WriteLine("Destinos atualmente disponíves: ");
-            destinoVoo.ForEach(i => Console.WriteLine(i));
+            Console.WriteLine("BSB - Aeroporto Internacional de Brasilia");
+            Console.WriteLine("CGH - Aeroporto Internacional de Congonhas/SP");
+            Console.WriteLine("BSB - Aeroporto Internacional do Rio de Janeiro");
             Console.WriteLine("--------------------------");
             do
             {
-                Console.Write("Informe o destino do voo: ");
-                String destinoEscolhido = Console.ReadLine();
+                Console.Write("Informe a sigla do destino dd voo: ");
+                String destinoEscolhido = Console.ReadLine().ToUpper();
                 if (destinoVoo.Contains(destinoEscolhido))
                 {
                     return destinoEscolhido;
@@ -138,42 +133,55 @@ namespace OnTheFly_projeto
                     Console.WriteLine("Destino inválido, informe novamente!");
                     Console.WriteLine("");
                 }
-            } while (true);         
+            } while (true);
         }
 
-        public void EditarVoo(List<Voo> listaVoos)
+        public void EditarVoo(List<Voo> listaVoo)
         {
             Console.Clear();
             Console.WriteLine("Opção: Editar Voo");
-            Console.WriteLine("Informe seu ID de voo que voce deseja editar para procurarmos em nosso Banco de Dados: ");
+            Console.WriteLine("Informe seu ID de voo para procurarmos em nosso Banco de Dados: ");
             string idVoo = Console.ReadLine();
-            Voo buscaIdVoo = null;
-            foreach (Voo voo in listaVoos)
+            Voo encontrouVoo = listaVoo.Find(Voo => Voo.Id == idVoo);
+            if (encontrouVoo == null)
             {
-                if (idVoo == voo.Id )
-                {
-                    buscaIdVoo = voo;
-                }
-            }
-            if (buscaIdVoo == null)
-            {
-                Console.WriteLine("O voo com Id: " + idVoo + " não foi encontrado.");
-                Console.WriteLine("Pressione uma tecla para continuar");
+                Console.WriteLine("Não existe um registro para esse Id de Voo");
+                Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("O Voo de Id: " + idVoo + " foi encontrado.");
-                Console.WriteLine(buscaIdVoo.ImprimirVoo());
-                Console.WriteLine("Pressione uma tecla para ir ao menu de alteração");
+                Console.WriteLine("--------------------------------------------");
+                Console.WriteLine(encontrouVoo.ImprimirVoo());
+                Console.WriteLine("Voce deseja editar esse Voo: \n1. SIM \n2. NÃO");
+                int op = int.Parse(Console.ReadLine());
+                switch (op)
+                {
+                    case 1:
+                        Console.WriteLine("As opções mutáveis são: Destino, Aeronave, DataVoo, DataCadastro, Situação do Voo");
+                        encontrouVoo.EditandoInfVoo();// fazer metodo quando voltar, chamar construtor e reescrever as informações. 
+                        break;
+                    case 2:
+                        Console.WriteLine("Voltando ao menu...");
+                        Thread.Sleep(1300);
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
+                }
                 Console.ReadKey();
-
-                Console.Clear();
-                Console.WriteLine("Os atributos que podem ser alterados são: Destino, Aeronave, Data do Voo e Situacao.");
-                //terminar metodo de editar informação
-
-                //imprimir registro por registro 
             }
+
+            Console.Clear();
+            Console.WriteLine("Os atributos que podem ser alterados são: Destino, Aeronave, Data do Voo e Situacao.");
+            //terminar metodo de editar informação
+
+            //imprimir registro por registro 
+        }
+        public void EditandoInfVoo() //nao criado.
+        {
+
         }
     }
 }
+
