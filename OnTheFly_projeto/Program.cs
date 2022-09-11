@@ -76,17 +76,19 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 3);
+            } while (op > 0 && op < 6);
         }
         public static void Cliente()
         {
+            List<Passageiro> passageiros = new List<Passageiro>();
+            Passageiro passageiro = new Passageiro();
+
             int op;
             do
             {
-                Console.Clear();
+                
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
 
                 switch (op)
                 {
@@ -97,20 +99,20 @@ namespace OnTheFly_projeto
                         Opcoes();
                         break;
                     case 2:
-                        Cadastro();
+                        passageiro.CadastrarPassageiro(passageiros);
                         break;
-                    case 3:
+                    case 3: passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
-                    case 4:
+                    case 4: passageiro.EditarPassageiro(passageiros);
                         break;
-                    case 5:
+                    case 5: passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
-                    case 6: //restritos
+                    case 6: ClientesRestritos();
                         break;
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 6);
         }
         public static void CiaAerea()
         {
@@ -148,7 +150,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 6);
         }
         public static void Destinos()
         {
@@ -179,7 +181,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 5);
 
         }
         public static void Voos()
@@ -211,7 +213,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 5);
         }
         public static void Avioes()
         {
@@ -242,7 +244,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 5);
         }
         public static void Cadastro()
         {
@@ -269,34 +271,39 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 5);
         }
         public static void ClientesRestritos()
         {
+            List<string> restritos = new List<string>();
+            Passageiro restrito = new Passageiro(); 
+
             int op;
-
-            Console.Clear();
-            Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cliente\n3- Remover Cliente\n4- Visualizar lista\n0- Sair");
-            op = int.Parse(Console.ReadLine());
-
-            switch (op)
+            do
             {
-                case 1:
-                    Cadastro();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 0:
-                    Environment.Exit(0);
-                    break;
-                default:
-                    break;
+                Console.Clear();
+                Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cliente\n3- Remover Cliente\n4- Visualizar lista\n0- Sair");
+                op = int.Parse(Console.ReadLine());
 
-            }
+                switch (op)
+                {
+                    case 1:
+                        Cadastro();
+                        break;
+                    case 2: restrito.InserirRestrito(restritos);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        break;
+
+                }
+            } while (op > 0 && op < 5);
         }
         public static void CiasBloqueadas()
         {
