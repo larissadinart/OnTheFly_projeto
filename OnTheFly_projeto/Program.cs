@@ -98,7 +98,7 @@ namespace OnTheFly_projeto
                         break;
                     case 4: passageiro.EditarPassageiro(passageiros);
                         break;
-                    case 5:
+                    case 5: passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
                     case 6: //restritos
                         break;
