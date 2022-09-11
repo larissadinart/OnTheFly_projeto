@@ -52,7 +52,7 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("Cpf invalido, digite novamente");
                 Console.WriteLine("CPF: ");
-                this.Cpf = Console.ReadLine();
+                passageiro.Cpf = Console.ReadLine();
             }
 
             //validação da condição de não existir dois registros com cpfs iguais
@@ -73,7 +73,7 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("Opção invalida, digite novamente");
                 Console.WriteLine("Sexo (M/F/N): ");
-                this.Sexo = char.Parse(Console.ReadLine());
+                passageiro.Sexo = char.Parse(Console.ReadLine());
             }
 
             Console.WriteLine("Ultima Compra: ");
@@ -119,7 +119,7 @@ namespace OnTheFly_projeto
 
         }
 
-        public void ImprimirTodosPassageiros() // menos os com o status Inativo 
+        public void ImprimirTodosPassageiros(List<Passageiro> passageiros) // menos os com o status Inativo 
         {
 
         }
@@ -140,8 +140,73 @@ namespace OnTheFly_projeto
         }
 
         // edita campos selecionados (menos o do cpf) 
-        public void EditarPassageiro(List<Passageiro> passageiros, string nome, string cpf, DateTime dataNascimento, char sexo, DateTime ultimaCompra, DateTime dataCadastro, char situacao)
+        public void EditarPassageiro(List<Passageiro> passageiros)
         {
+            Console.WriteLine("Digite o cpf: ");
+            string cpf = Console.ReadLine();
+            Passageiro encontrouPassageiro = passageiros.Find(passageiro => passageiro.Cpf == cpf);
+
+            if (encontrouPassageiro == null)
+            {
+                Console.WriteLine("Passageiro não localizado");
+
+            }
+
+            else
+            {
+                int opc;
+                do
+                {
+                    Console.WriteLine("Digite a opção que deseja editar");
+                    Console.WriteLine("1-Nome");
+                    Console.WriteLine("2-Data de nascimento");
+                    Console.WriteLine("3-Sexo (M/F/N)");
+                    Console.WriteLine("4-Ultima compra");
+                    Console.WriteLine("5-Data cadastro");
+                    Console.WriteLine("6-Situação");
+                    opc = int.Parse(Console.ReadLine());
+                    while (opc < 1 || opc > 6)
+                    {
+                        Console.WriteLine("Digite uma opcao valida:");
+                        opc = int.Parse(Console.ReadLine());
+                    }
+
+                    switch (opc)
+                    {
+                        case 1:
+                            Console.WriteLine("Informe o nome: ");
+                            string nome = Console.ReadLine();
+                            encontrouPassageiro.Nome = nome;
+                            break;
+                        case 2:
+                            Console.WriteLine("Informe a data de nascimento: ");
+                            DateTime dataNasc = DateTime.Parse(Console.ReadLine());
+                            encontrouPassageiro.DataNascimento = dataNasc;
+                            break;
+                        case 3:
+                            Console.WriteLine("Informe o sexo (M/F/N): ");
+                            char sexo = char.Parse(Console.ReadLine());
+                            encontrouPassageiro.Sexo = sexo;
+                            break;
+                        case 4:
+                            Console.WriteLine("Informe a ultima compra: ");
+                            DateTime ultimaCompra = DateTime.Parse(Console.ReadLine());
+                            encontrouPassageiro.UltimaCompra = ultimaCompra;
+                            break;
+                        case 5:
+                            Console.WriteLine("Informe a data de cadastro: ");
+                            DateTime dataCadastro = DateTime.Parse(Console.ReadLine());
+                            encontrouPassageiro.DataCadastro = dataCadastro;
+                            break;
+                        case 6:
+                            Console.WriteLine("Informe a situação: ");
+                            char situacao = char.Parse(Console.ReadLine());
+                            encontrouPassageiro.Situacao = situacao;
+                            break;
+                    }
+
+                } while (opc > 1 && opc < 6);
+            }
 
         }
 

@@ -69,7 +69,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 6);
+            } while (op > 0 && op < 6);
         }
         public static void Cliente()
         {
@@ -96,7 +96,7 @@ namespace OnTheFly_projeto
                         break;
                     case 3: passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
-                    case 4:
+                    case 4: passageiro.EditarPassageiro(passageiros);
                         break;
                     case 5:
                         break;
@@ -105,7 +105,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 6);
+            } while (op > 0 && op < 6);
         }
         public static void CiaAerea()
         {
@@ -140,7 +140,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 6);
+            } while (op > 0 && op < 6);
         }
         public static void Destinos()
         {
@@ -171,7 +171,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 5);
+            } while (op > 0 && op < 5);
 
         }
         public static void Voos()
@@ -203,7 +203,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 5);
+            } while (op > 0 && op < 5);
         }
         public static void Avioes()
         {
@@ -234,7 +234,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 5);
+            } while (op > 0 && op < 5);
         }
         public static void Cadastro()
         {
@@ -261,7 +261,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 5);
+            } while (op > 0 && op < 5);
         }
         public static void ClientesRestritos()
         {
@@ -290,7 +290,7 @@ namespace OnTheFly_projeto
                         break;
 
                 }
-            } while (op < 0 || op > 5);
+            } while (op > 0 && op < 5);
         }
         public static void CiasBloqueadas()
         {
@@ -317,7 +317,7 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 || op < 5);
+            } while (op > 0 && op < 5);
         }
 
     }
