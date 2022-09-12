@@ -82,6 +82,7 @@ namespace OnTheFly_projeto
         {
             List<Passageiro> passageiros = new List<Passageiro>();
             Passageiro passageiro = new Passageiro();
+            passageiro.LerPassageiros(passageiros);
 
             int op;
             do
@@ -277,6 +278,7 @@ namespace OnTheFly_projeto
         {
             List<string> restritos = new List<string>();
             Passageiro restrito = new Passageiro(); 
+            
 
             int op;
             do

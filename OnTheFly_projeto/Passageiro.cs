@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,11 +77,10 @@ namespace OnTheFly_projeto
                 passageiro.Sexo = char.Parse(Console.ReadLine());
             }
 
-            Console.WriteLine("Ultima Compra: ");
-            passageiro.UltimaCompra = DateTime.Parse(Console.ReadLine());
 
-            Console.WriteLine("Data Cadastro: ");
-            passageiro.DataCadastro = DateTime.Parse(Console.ReadLine());
+            passageiro.UltimaCompra = DateTime.Now;
+
+            passageiro.DataCadastro = DateTime.Now;
 
             Console.WriteLine("Situação (A-Ativo / I- Inativo): ");
             passageiro.Situacao = char.Parse(Console.ReadLine());
@@ -91,7 +91,26 @@ namespace OnTheFly_projeto
                 passageiro.Situacao = char.Parse(Console.ReadLine());
             }
 
-            passageiros.Add(passageiro);
+
+            Console.WriteLine("Deseja efetuar a gravação? ");
+            Console.WriteLine("1- Sim");
+            Console.WriteLine("2-Não");
+            int opc = int.Parse(Console.ReadLine());
+
+            if (opc == 1)
+            {
+                Console.WriteLine("Gravação efetuada com sucesso!");
+                passageiros.Add(passageiro);
+                GravarPassageiros(passageiros);
+            }
+
+            else
+
+            {
+                Console.WriteLine("Gravação não efetuada");
+                passageiros.Add(passageiro);
+            }
+
 
         }
 
@@ -216,6 +235,22 @@ namespace OnTheFly_projeto
                         encontrouPassageiro.Situacao = situacao;
                         break;
                 }
+
+                Console.WriteLine("Deseja efetuar a gravação? ");
+                Console.WriteLine("1- Sim");
+                Console.WriteLine("2-Não");
+                int opcGravacao = int.Parse(Console.ReadLine());
+
+                if (opcGravacao == 1)
+                {
+
+                    GravarPassageiros(passageiros);
+                }
+
+                else
+                {
+                    Console.WriteLine("Gravação não efetuada!");
+                }
             }
         }
 
@@ -223,7 +258,7 @@ namespace OnTheFly_projeto
         {
             Console.WriteLine("Digite o CPF restrito: ");
             string cpf = Console.ReadLine();
-            while(ValidarCpf(cpf) == false || cpf.Length < 11)
+            while (ValidarCpf(cpf) == false || cpf.Length < 11)
             {
                 Console.WriteLine("CPF inválido, insira novamente: ");
                 cpf = Console.ReadLine();
@@ -254,7 +289,7 @@ namespace OnTheFly_projeto
             if (encontrouRestrito != null)
             {
                 Console.WriteLine("Esse CPF é restrito pela Polícia Federal!");
-                
+
             }
 
             else
@@ -268,14 +303,71 @@ namespace OnTheFly_projeto
             Console.WriteLine("Digite o CPF para remover: ");
             string cpf = Console.ReadLine();
             string encontrouRestrito = restritos.Find(restrito => restrito == cpf);
-            
-            if(encontrouRestrito != null)
+
+            if (encontrouRestrito != null)
             {
                 restritos.Remove(encontrouRestrito);
                 Console.WriteLine("O CPF foi removido da lista de restritros");
             }
 
         }
+
+        public void LerPassageiros(List<Passageiro> passageiros)
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Passageiro.txt");
+                line = sr.ReadLine();
+                string dataNasc = line.Substring(61, 12);
+                dataNasc = dataNasc.Substring(0, 2) + '/' +dataNasc.Substring(2, 2) + "/" + dataNasc.Substring(4, 4) + ' ' + dataNasc.Substring(8, 2) + ':' + dataNasc.Substring(10, 2);
+                string ultimaC = line.Substring(74, 12);
+                ultimaC = ultimaC.Substring(0, 2) + '/' + ultimaC.Substring(2, 2) + "/" + ultimaC.Substring(4, 4) + ' ' + ultimaC.Substring(8, 2) + ':' + ultimaC.Substring(10, 2);
+                string dataC = line.Substring(86, 12);
+                dataC = dataC.Substring(0, 2) + '/' + dataC.Substring(2, 2) + "/" + dataC.Substring(4, 4) + ' ' + dataC.Substring(8, 2) + ':' + dataC.Substring(10, 2);
+                Passageiro passageiro = new Passageiro();
+                while (line != null)
+                {
+                    passageiro.Nome = line.Substring(0, 50);
+                    passageiro.Cpf = line.Substring(50, 11);
+                    passageiro.DataNascimento = DateTime.Parse(dataNasc);
+                    passageiro.Sexo = char.Parse(line.Substring(73, 1));
+                    passageiro.UltimaCompra = DateTime.Parse(ultimaC);
+                    passageiro.DataCadastro = DateTime.Parse(dataC);
+                    passageiro.Situacao = char.Parse(line.Substring(98, 1));
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+                Console.WriteLine("\nFim da Leitura do Arquivo");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+
+        public void GravarPassageiros(List<Passageiro> passageiros)
+        {
+            string passageiro;
+            try
+            {
+                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Passageiro.txt");
+                foreach (Passageiro p in passageiros)
+                {
+
+                    passageiro = ((p.Nome + p.Cpf + p.DataNascimento.ToString("ddMMyyyy" + "hhmm") + p.Sexo + p.UltimaCompra.ToString("ddMMyy" + "hhmm") + p.DataCadastro.ToString("ddMMyy" + "hhmm") + p.Situacao).ToString());
+                    streamWriter.WriteLineAsync(passageiro);
+                    streamWriter.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+
+        }
+
 
         public bool ValidarCpf(string cpf)
         {
