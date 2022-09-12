@@ -11,6 +11,7 @@ namespace OnTheFly_projeto
         static List<string> bloqueadas = new List<string>();
         static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
 
+
         static void Main(string[] args)
         {
             Menu();
