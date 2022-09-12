@@ -174,16 +174,24 @@ namespace OnTheFly_projeto
             int op;
             List<Voo> listaVoos = new List<Voo>();
             Voo voo = new Voo();
+            voo.LerArquivoVoo(listaVoos);
             do
             {
                 Console.Clear();
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
+                while (op < 0 || op > 5)
+                {
+                    Console.WriteLine("Opção inválida, informe novamente: ");
+                    Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                    op = int.Parse(Console.ReadLine());
+                }
                 List<string> destinos = new List<string>();
       
                 switch (op)
                 {
                     case 0:
+                        voo.GeraArquivoVoo(listaVoos);
                         Environment.Exit(0); // [OK]
                         break;
                     case 1:
@@ -195,11 +203,11 @@ namespace OnTheFly_projeto
                     case 3: //localizar [OK]
                         voo.LocalizarVoo(listaVoos);
                         break;
-                    case 4: //editar [OK]
+                    case 4: //editar [OK] - mudar na lista depois grava tudo.
                         voo.EditarVoo(listaVoos);
                         break;
                     case 5:
-                        voo.ImprimeArquivoVoo(listaVoos);
+                        voo.ImprimeArquivoVoo();
                         Console.ReadKey();                   
                         //teste de imprimir arquivo texto gerado.
                         //imprimir por registro

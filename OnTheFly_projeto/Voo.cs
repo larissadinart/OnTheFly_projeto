@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading;
 
 namespace OnTheFly_projeto
@@ -12,7 +9,7 @@ namespace OnTheFly_projeto
     internal class Voo
     {
         public String Id { get; set; } // CHAVE!! Digito inicial V, seguidos de 4 dígitos numéricos
-        public String Destino { get; set; } //aeroporto de destino.
+        public string Destino { get; set; } //aeroporto de destino.
         public String Aeronave { get; set; } //Id da Aeronave Cadastrada. Esse registro deve existir previamente
         public DateTime DataVoo { get; set; } //data da partida
         public DateTime DataCadastro { get; set; }
@@ -21,10 +18,10 @@ namespace OnTheFly_projeto
         {
 
         }
-        public Voo(String destino, string aeronave, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo)
+        public Voo(string destino, string aeronave, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo)
         {
             int valorId = RandomCadastroVoo();
-            this.Id = "V" + valorId.ToString();//validar ID
+            this.Id = "V" + valorId.ToString("D4");
             this.Destino = destino;
             this.Aeronave = aeronave;
             this.DataVoo = dataVoo;
@@ -81,7 +78,7 @@ namespace OnTheFly_projeto
             Console.WriteLine("Aperte uma tecla para prosseguir: ");
             Console.ReadKey();
         } //falta linkar com aeronaves.
-        public void LocalizarVoo(List<Voo> listaDeVoo)
+        public void LocalizarVoo(List<Voo> listaDeVoo) //modificar utilizando arquivo
         {
             Console.Clear();
             Console.WriteLine("Opção: Localizar Voo");
@@ -115,8 +112,8 @@ namespace OnTheFly_projeto
         {
             List<string> destinoVoo = new List<string>();
             destinoVoo.Add("BSB");
-            destinoVoo.Add("CGH"); 
-            destinoVoo.Add("GIG"); 
+            destinoVoo.Add("CGH");
+            destinoVoo.Add("GIG");
             Console.WriteLine("Destinos atualmente disponíves: ");
             Console.WriteLine("BSB - Aeroporto Internacional de Brasilia");
             Console.WriteLine("CGH - Aeroporto Internacional de Congonhas/SP");
@@ -171,7 +168,7 @@ namespace OnTheFly_projeto
                     default:
                         Console.WriteLine("Opção inválida!");
                         break;
-                }              
+                }
             }
             Console.Clear();
             Console.WriteLine("Os atributos que podem ser alterados são: Destino, Aeronave, Data do Voo e Situacao.");
@@ -201,30 +198,27 @@ namespace OnTheFly_projeto
             Console.WriteLine("Pressione alguma tecla para prosseguir");
             Console.ReadKey();
         }
-        public void GeraArquivoVoo(List<Voo> listaDeVoo)
+        public void GeraArquivoVoo(List<Voo> listadeVoo)
         {
             string msg = "";
-            foreach (Voo voo in listaDeVoo)
+            foreach (Voo voo in listadeVoo)
             {
-                msg = "\n" + voo.Id +
-                      "\n" + voo.Destino +
-                      "\n" + voo.Aeronave +
-                      "\n" + voo.DataVoo.ToString("g") +
-                      "\n" + voo.DataCadastro.ToString("g") +
-                      "\n" + voo.Situacao;
+                msg = voo.Id + voo.Destino.ToString() + voo.Aeronave + voo.DataVoo.ToString("ddMMyy" + "hhmm") + voo.DataCadastro.ToString("ddMMyy" + "hhmm") + voo.Situacao;
             }
             try
             {
                 StreamWriter sw = new StreamWriter("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat", append: true);
-                sw.WriteLineAsync(msg);
+                sw.WriteLine(msg);
                 sw.Close();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-        } //gera arquivo, mas falta linkar com Aeronaves.
-        public void ImprimeArquivoVoo(List<Voo> listaDeVoo) //Imprime mas precisa colocar no padrao.
+            Console.WriteLine("\nAperte Enter");
+            Console.ReadKey();
+        }  //gera arquivo, mas falta linkar com Aeronaves.
+        public void ImprimeArquivoVoo()
         {
             string line;
             try
@@ -239,6 +233,36 @@ namespace OnTheFly_projeto
                 sr.Close();
                 Console.WriteLine("\nFim da Leitura do Arquivo");
                 Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+        public void LerArquivoVoo(List<Voo> listadeVoo) 
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat");
+                line = sr.ReadLine();
+                string dv = line.Substring(8, 10);
+                dv = dv.Substring(0, 2) + '/' + dv.Substring(2, 2) + "//" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                Voo v = new Voo();
+                while (line != null) //COLOCAR O ANO INTERIO dd/MM/yyyy
+                {
+                    v.Id = line.Substring(0, 5);
+                    v.Destino = line.Substring(5, 3);
+                    //v.Aeronave = line.Substring(0, 0);
+                    v.DataVoo = DateTime.Parse(dv); 
+                    v.DataCadastro = DateTime.Parse(line.Substring(18, 10));
+                    v.Situacao = char.Parse(line.Substring(29));
+                    listadeVoo.Add(v);
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+                Console.WriteLine("\nFim da Leitura do Arquivo");
             }
             catch (Exception e)
             {
