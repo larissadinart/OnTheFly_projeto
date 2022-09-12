@@ -6,7 +6,10 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-        
+
+        static CompanhiaAerea cia = new CompanhiaAerea();
+        static List<string> bloqueadas = new List<string>();
+        static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
 
         static void Main(string[] args)
         {
@@ -84,7 +87,7 @@ namespace OnTheFly_projeto
             int op;
             do
             {
-                
+
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -99,13 +102,17 @@ namespace OnTheFly_projeto
                     case 2:
                         passageiro.CadastrarPassageiro(passageiros);
                         break;
-                    case 3: passageiro.ImprimirPassageiroEspecifico(passageiros);
+                    case 3:
+                        passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
-                    case 4: passageiro.EditarPassageiro(passageiros);
+                    case 4:
+                        passageiro.EditarPassageiro(passageiros);
                         break;
-                    case 5: passageiro.ImprimirTodosPassageiros(passageiros);
+                    case 5:
+                        passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
-                    case 6: ClientesRestritos();
+                    case 6:
+                        ClientesRestritos();
                         break;
                     default:
                         break;
@@ -116,20 +123,11 @@ namespace OnTheFly_projeto
         {
             int op;
 
-            List<CompanhiaAerea> CiasAtivas = new List <CompanhiaAerea>();
-            List<CompanhiaAerea> CiasInativas = new List<CompanhiaAerea>();
-            List<CompanhiaAerea> CiasBloqueadas = new List<CompanhiaAerea>();
-            List<string> bloqueadas = new List<string>();
-            List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
-
-            CompanhiaAerea cia = new CompanhiaAerea();
-            
             do
             {
                 Console.Clear();
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
 
                 switch (op)
                 {
@@ -141,22 +139,63 @@ namespace OnTheFly_projeto
                         break;
                     case 2:
                         cia.CadastrarCia(TodasCias);
-                        Menu();
+                        Opcoes();
                         break;
                     case 3:
-                        cia.LocalizarCiaAerea(TodasCias);  
+                        cia.LocalizarCiaAerea(TodasCias);
+                        Opcoes();
                         break;
                     case 4:
-                        
+                        cia.EditarCia(TodasCias);
+                        Opcoes();
                         break;
-                    case 5: //imprimir por registro
+                    case 5:
+                        cia.ImprimirCiaEspecifica(TodasCias);
+                        Opcoes();
                         break;
-                    case 6: //bloqueados
+                    case 6:
                         break;
                     default:
                         break;
                 }
             } while (op > 0 && op < 6);
+        }
+        public static void CiaAereaBloqueada()
+        {
+            int op;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar Bloqueado\n3- Localizar Bloqueado\n4- Remover CNPJ da lista\n0- Sair");
+                op = int.Parse(Console.ReadLine());
+
+                switch (op)
+                {
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    case 1:
+                        CiaAerea();
+                        break;
+                    case 2:
+                        cia.CadastrarBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 3:
+                        cia.LocalizarBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 4:
+                        cia.RemoverBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 5:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            } while (op > 0 && op < 5);
         }
         public static void Destinos()
         {
@@ -282,12 +321,12 @@ namespace OnTheFly_projeto
         public static void ClientesRestritos()
         {
             List<string> restritos = new List<string>();
-            Passageiro restrito = new Passageiro(); 
+            Passageiro restrito = new Passageiro();
 
             int op;
             do
             {
-                
+
                 Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Cadastrar\n3- Localizar\n4-Remover\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -296,11 +335,14 @@ namespace OnTheFly_projeto
                     case 1:
                         Cadastro();
                         break;
-                    case 2: restrito.CadastrarRestrito(restritos);
+                    case 2:
+                        restrito.CadastrarRestrito(restritos);
                         break;
-                    case 3: restrito.LocalizarRestrito(restritos);
+                    case 3:
+                        restrito.LocalizarRestrito(restritos);
                         break;
-                    case 4: restrito.RetirarRestrito(restritos);
+                    case 4:
+                        restrito.RetirarRestrito(restritos);
                         break;
                     case 0:
                         Environment.Exit(0);
@@ -358,7 +400,7 @@ namespace OnTheFly_projeto
         //    sw.WriteLine(CiasBloqueadas.ToString());
         //    sw.Close();
         //}
-        public static void GravarArquivoTodasCias(List<CompanhiaAerea> TodasCias) 
+        public static void GravarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
         {
             StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroTodasCias.dat,", true);
             sw.WriteLine(TodasCias.ToString());
@@ -429,7 +471,7 @@ namespace OnTheFly_projeto
         //        Console.WriteLine("Erro: " + e.Message);
         //    }
         //}
-        public static void LerArquivoTodasCias(List<CompanhiaAerea> TodasCias) 
+        public static void LerArquivoTodasCias(List<CompanhiaAerea> TodasCias)
         {
             string line;
             try
@@ -450,41 +492,41 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        //public static CompanhiaAerea LerCiaArquivoAtivos()
-        //{
-        //    try
-        //    {
-        //        string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
+        public static CompanhiaAerea LerCiaArquivoAtivos()
+        {
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
 
-        //        string[] informacoes;
+                string[] informacoes;
 
-        //        List<string> ciasAereas = new List<string>(); 
+                List<string> ciasAereas = new List<string>();
 
-        //        foreach (string line in lines) 
-        //        {
-        //            informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
+                foreach (string line in lines)
+                {
+                    informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
 
-        //            if (informacoes.Length == 4) 
-        //            {
-        //                for (int i = 0; i < informacoes.Length; i++)
-        //                    ciasAereas.Add(informacoes[i]); 
-        //            }
-        //            else
-        //                return new CompanhiaAerea(); 
-        //        }
-        //        return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(),DateTime.Parse(ciasAereas[2].ToString()),DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()),char.Parse(ciasAereas[5].ToString()));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("Exception: " + e.Message);
-        //    }
-        //    finally
-        //    {
-        //        Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
-        //        Console.ReadLine();
-        //    }
-        //    return new CompanhiaAerea(); 
-        //}
+                    if (informacoes.Length == 4)
+                    {
+                        for (int i = 0; i < informacoes.Length; i++)
+                            ciasAereas.Add(informacoes[i]);
+                    }
+                    else
+                        return new CompanhiaAerea();
+                }
+                return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(), DateTime.Parse(ciasAereas[2].ToString()), DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()), char.Parse(ciasAereas[5].ToString()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
+                Console.ReadLine();
+            }
+            return new CompanhiaAerea();
+        }
 
 
         #endregion
