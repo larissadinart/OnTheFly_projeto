@@ -180,7 +180,7 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
                 op = int.Parse(Console.ReadLine());
                 List<string> destinos = new List<string>();
-
+      
                 switch (op)
                 {
                     case 0:
@@ -195,10 +195,14 @@ namespace OnTheFly_projeto
                     case 3: //localizar [OK]
                         voo.LocalizarVoo(listaVoos);
                         break;
-                    case 4: //editar [em desenvolvimetno]
+                    case 4: //editar [OK]
                         voo.EditarVoo(listaVoos);
                         break;
-                    case 5://imprimir por registro.
+                    case 5:
+                        voo.ImprimeArquivoVoo(listaVoos);
+                        Console.ReadKey();                   
+                        //teste de imprimir arquivo texto gerado.
+                        //imprimir por registro
                         break;
                     default:
                         break;

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -56,7 +59,7 @@ namespace OnTheFly_projeto
             Console.WriteLine("Aeronave definida como: " + IdentificacaoAeronave);
             Console.Write("Informe a data de Voo: ");
             DateTime dataVoo = DateTime.Parse(Console.ReadLine());
-            if (dataVoo < DateTime.Now)
+            if (dataVoo <= DateTime.Now)
             {
                 Console.WriteLine("Essa data é inválida, informe novamente: ");
                 dataVoo = DateTime.Parse(Console.ReadLine());
@@ -74,9 +77,10 @@ namespace OnTheFly_projeto
             listaDeVoo.Add(novoVoo);
             Console.Clear();
             Console.WriteLine(novoVoo.ImprimirVoo());
+            GeraArquivoVoo(listaDeVoo);
             Console.WriteLine("Aperte uma tecla para prosseguir: ");
             Console.ReadKey();
-        }
+        } //falta linkar com aeronaves.
         public void LocalizarVoo(List<Voo> listaDeVoo)
         {
             Console.Clear();
@@ -107,21 +111,20 @@ namespace OnTheFly_projeto
                 "\nDataCadastro: " + DataCadastro +
                 "\nSituacao do Vôo: " + Situacao;
         }
-        public string DestinoVoo() //retorna string
+        public string DestinoVoo()
         {
             List<string> destinoVoo = new List<string>();
-            destinoVoo.Add("BSB"); // - Aeroporto Internacional de Brasilia"
-            destinoVoo.Add("CGH"); // - Aeroporto Internacional de Congonhas/SP"
-            destinoVoo.Add("GIG"); // - Aeroporto Internacional do Rio de Janeiro
-
+            destinoVoo.Add("BSB");
+            destinoVoo.Add("CGH"); 
+            destinoVoo.Add("GIG"); 
             Console.WriteLine("Destinos atualmente disponíves: ");
             Console.WriteLine("BSB - Aeroporto Internacional de Brasilia");
             Console.WriteLine("CGH - Aeroporto Internacional de Congonhas/SP");
-            Console.WriteLine("BSB - Aeroporto Internacional do Rio de Janeiro");
-            Console.WriteLine("--------------------------");
+            Console.WriteLine("GIG - Aeroporto Internacional do Rio de Janeiro");
+            Console.WriteLine("");
             do
             {
-                Console.Write("Informe a sigla do destino dd voo: ");
+                Console.Write("Informe a sigla do destino de voo: ");
                 String destinoEscolhido = Console.ReadLine().ToUpper();
                 if (destinoVoo.Contains(destinoEscolhido))
                 {
@@ -135,7 +138,6 @@ namespace OnTheFly_projeto
                 }
             } while (true);
         }
-
         public void EditarVoo(List<Voo> listaVoo)
         {
             Console.Clear();
@@ -151,7 +153,7 @@ namespace OnTheFly_projeto
             }
             else
             {
-                Console.WriteLine("--------------------------------------------");
+                Console.WriteLine("");
                 Console.WriteLine(encontrouVoo.ImprimirVoo());
                 Console.WriteLine("Voce deseja editar esse Voo: \n1. SIM \n2. NÃO");
                 int op = int.Parse(Console.ReadLine());
@@ -159,7 +161,8 @@ namespace OnTheFly_projeto
                 {
                     case 1:
                         Console.WriteLine("As opções mutáveis são: Destino, Aeronave, DataVoo, DataCadastro, Situação do Voo");
-                        encontrouVoo.EditandoInfVoo();// fazer metodo quando voltar, chamar construtor e reescrever as informações. 
+                        encontrouVoo.EditandoInfVoo(encontrouVoo);
+                        //listaVoo.Add(encontrouVoo);
                         break;
                     case 2:
                         Console.WriteLine("Voltando ao menu...");
@@ -168,19 +171,79 @@ namespace OnTheFly_projeto
                     default:
                         Console.WriteLine("Opção inválida!");
                         break;
-                }
-                Console.ReadKey();
+                }              
             }
-
             Console.Clear();
             Console.WriteLine("Os atributos que podem ser alterados são: Destino, Aeronave, Data do Voo e Situacao.");
-            //terminar metodo de editar informação
-
-            //imprimir registro por registro 
+            Console.ReadKey();
         }
-        public void EditandoInfVoo() //nao criado.
+        public void EditandoInfVoo(Voo EdicaoVoo)
         {
-
+            string novoDestino = DestinoVoo();
+            EdicaoVoo.Destino = novoDestino;
+            Console.WriteLine("Insira a nova Aeronave: ");
+            EdicaoVoo.Aeronave = Console.ReadLine();
+            Console.WriteLine("Insira a nova data de Voo: ");
+            EdicaoVoo.DataVoo = DateTime.Parse(Console.ReadLine());
+            if (EdicaoVoo.DataVoo <= DateTime.Now)
+            {
+                Console.WriteLine("Essa data é inválida, informe novamente: ");
+                EdicaoVoo.DataVoo = DateTime.Parse(Console.ReadLine());
+            }
+            Console.WriteLine("Informe a nova situacao do Voo: \n'A'- Ativo \n'C' - Cancelado");
+            EdicaoVoo.Situacao = Char.Parse(Console.ReadLine().ToUpper());
+            while (EdicaoVoo.Situacao != 'A' && EdicaoVoo.Situacao != 'C')
+            {
+                Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n'A'- Ativo \n'C' - Cancelado");
+                EdicaoVoo.Situacao = char.Parse(Console.ReadLine().ToUpper());
+            }
+            Console.WriteLine("Arquivo editado com sucesso!!");
+            Console.WriteLine("Pressione alguma tecla para prosseguir");
+            Console.ReadKey();
+        }
+        public void GeraArquivoVoo(List<Voo> listaDeVoo)
+        {
+            string msg = "";
+            foreach (Voo voo in listaDeVoo)
+            {
+                msg = "\n" + voo.Id +
+                      "\n" + voo.Destino +
+                      "\n" + voo.Aeronave +
+                      "\n" + voo.DataVoo.ToString("g") +
+                      "\n" + voo.DataCadastro.ToString("g") +
+                      "\n" + voo.Situacao;
+            }
+            try
+            {
+                StreamWriter sw = new StreamWriter("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat", append: true);
+                sw.WriteLineAsync(msg);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        } //gera arquivo, mas falta linkar com Aeronaves.
+        public void ImprimeArquivoVoo(List<Voo> listaDeVoo) //Imprime mas precisa colocar no padrao.
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat");
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+                Console.WriteLine("\nFim da Leitura do Arquivo");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
         }
     }
 }
