@@ -126,7 +126,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n7- Gravar arquivo de Cias Aéreas\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -153,12 +153,16 @@ namespace OnTheFly_projeto
                         cia.ImprimirCiaEspecifica(TodasCias);
                         Opcoes();
                         break;
-                    case 6:
+                    case 6:CiasBloqueadas();
+                        Opcoes();
+                        break;
+                    case 7:
+                        GerarArquivoTodasCias(TodasCias);
                         break;
                     default:
                         break;
                 }
-            } while (op > 0 && op < 6);
+            } while (op > 0 && op < 7);
         }
         public static void CiaAereaBloqueada()
         {
@@ -358,18 +362,18 @@ namespace OnTheFly_projeto
             int op;
 
             Console.Clear();
-            Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cia. Aérea\n3- Remover Cia. Aérea\n4- Visualizar lista\n0- Sair");
+            Console.WriteLine("Escolha a opção desejada: \n\n1- Voltar ao Menu Anterior\n2- Inserir Cia.Aérea\n3- Remover Cia. Aérea\n4- Buscar Cia. Aérea\n0- Sair");
             op = int.Parse(Console.ReadLine());
             switch (op)
             {
                 case 1:
                     Cadastro();
                     break;
-                case 2:
+                case 2:cia.CadastrarBloqueadas(bloqueadas);
                     break;
-                case 3:
+                case 3:cia.RemoverBloqueadas(bloqueadas);
                     break;
-                case 4:
+                case 4:cia.LocalizarBloqueadas(bloqueadas);
                     break;
                 case 0:
                     Environment.Exit(0);
@@ -378,105 +382,36 @@ namespace OnTheFly_projeto
                     break;
             }
         }
-
         #endregion
 
         #region manipulação de arquivo cias aéreas
-        //public static void GravarArquivoCiasAtivas(List <CompanhiaAerea>CiasAtivas) 
-        //{
-        //    StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.dat", true);
-        //    sw.WriteLine(CiasAtivas.ToString());
-        //    sw.Close();
-        //}
-        //public static void GravarArquivoCiasInativas(List<CompanhiaAerea> CiasInativas) 
-        //{
-        //    StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.dat",true);
-        //    sw.WriteLine(CiasInativas.ToString());
-        //    sw.Close();
-        //}
-        //public static void GravarArquivoCiasBloqueadas(List<CompanhiaAerea> CiasBloqueadas) 
-        //{
-        //    StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.dat",true);
-        //    sw.WriteLine(CiasBloqueadas.ToString());
-        //    sw.Close();
-        //}
-        public static void GravarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
+        public static void GerarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
         {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroTodasCias.dat,", true);
-            sw.WriteLine(TodasCias.ToString());
-            sw.Close();
-        }
-        //public static void LerArquivoCiasAtivas(List<CompanhiaAerea> CiasAtivas) 
-        //{
-        //    string line;
-        //    string filename = @"c:\\Listas\\CadastroCiasAtivas.dat";
-        //    try
-        //    {
-        //        StreamReader sr = new StreamReader(filename);
-        //        line = sr.ReadLine();
-        //        while (line != null)
-        //        {
-        //            Console.WriteLine(line);
-        //            line = sr.ReadLine();
-        //        }
-        //        sr.Close();
-        //        Console.WriteLine("Fim do arquivo.");
+            string msg = "";
 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("Erro: " + e.Message);
-        //    }
-        //    Console.ReadKey();
-        //}
-        //public static void LerArquivoCiasInativas(List<CompanhiaAerea> CiasInativas) 
-        //{
-        //    string line;
-        //    try
-        //    {
-        //        StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.dat");
-        //        line = sr.ReadLine();
-        //        while (line != null)
-        //        {
-        //            Console.WriteLine(line);
-        //            line = sr.ReadLine();
-        //        }
-        //        sr.Close();
-        //        Console.WriteLine("Fim do arquivo.");
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("Erro: " + e.Message);
-        //    }
-        //}
-        //public static void LerArquivoBloqueadas(List<CompanhiaAerea> CiasBloqueadas) 
-        //{
-        //    string line;
-        //    try
-        //    {
-        //        StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.dat");
-        //        line = sr.ReadLine();
-        //        while (line != null)
-        //        {
-        //            Console.WriteLine(line);
-        //            line = sr.ReadLine();
-        //        }
-        //        sr.Close();
-        //        Console.WriteLine("Fim do arquivo.");
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("Erro: " + e.Message);
-        //    }
-        //}
-        public static void LerArquivoTodasCias(List<CompanhiaAerea> TodasCias)
+            foreach (CompanhiaAerea cia in TodasCias)
+            {
+                msg = cia.RazaoSocial + cia.Cnpj.ToString() + cia.DataAbertura.ToString("ddMMyy" + "hhmm") + cia.UltimoVoo.ToString("ddMMyy" + "hhmm") + cia.DataCadastro.ToString("ddMMyy" + "hhmm") + cia.Situacao;
+            }
+            try
+            {
+                StreamWriter sw = new StreamWriter("C:\\Listas_OnTheFly\\CiaAereas.dat", append: true);
+                sw.WriteLine(msg);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            Console.WriteLine("\nAperte Enter para continuar...");
+            Console.ReadKey();
+        }  
+        public static void ImprimirArquivoCias()
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroTodasCias.dat");
+                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -484,51 +419,44 @@ namespace OnTheFly_projeto
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Console.WriteLine("Fim do arquivo.");
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-        }
-        public static CompanhiaAerea LerCiaArquivoAtivos()
-        {
-            try
-            {
-                string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
-
-                string[] informacoes;
-
-                List<string> ciasAereas = new List<string>();
-
-                foreach (string line in lines)
-                {
-                    informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
-
-                    if (informacoes.Length == 4)
-                    {
-                        for (int i = 0; i < informacoes.Length; i++)
-                            ciasAereas.Add(informacoes[i]);
-                    }
-                    else
-                        return new CompanhiaAerea();
-                }
-                return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(), DateTime.Parse(ciasAereas[2].ToString()), DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()), char.Parse(ciasAereas[5].ToString()));
+                Console.WriteLine("\nFim da Leitura do Arquivo.");
+                Console.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-            finally
-            {
-                Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
-                Console.ReadLine();
-            }
-            return new CompanhiaAerea();
         }
-
-
+        public static void LerArquivoCias(List<CompanhiaAerea> TodasCias)
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
+                line = sr.ReadLine();
+                string dv = line.Substring(8, 10);
+                dv = dv.Substring(0, 2) + '/' + dv.Substring(2, 2) + "//" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                CompanhiaAerea c = new CompanhiaAerea();
+                while (line != null) 
+                {
+                    c.RazaoSocial = line.Substring(0, 49);
+                    c.Cnpj = line.Substring(49, 14);
+                    c.DataAbertura = DateTime.Parse(line.Substring(63,10));
+                    c.DataCadastro = DateTime.Parse(line.Substring(73, 10));
+                    c.UltimoVoo = DateTime.Parse(dv);
+                    c.Situacao = char.Parse(line.Substring(73));
+                    TodasCias.Add(c);
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+                Console.WriteLine("\nFim da Leitura do Arquivo.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
         #endregion
 
     }
