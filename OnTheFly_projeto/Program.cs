@@ -126,7 +126,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n7- Gravar arquivo de Cias Aéreas\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Bloqueados\n6- Gravar arquivo de Cias Aéreas\n7- Ler arquivo de Cias Aéreas\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -150,14 +150,13 @@ namespace OnTheFly_projeto
                         Opcoes();
                         break;
                     case 5:
-                        cia.ImprimirCiaEspecifica(TodasCias);
+                        CiasBloqueadas();
                         Opcoes();
                         break;
-                    case 6:CiasBloqueadas();
-                        Opcoes();
-                        break;
-                    case 7:
+                    case 6:
                         GerarArquivoTodasCias(TodasCias);
+                        break;
+                    case 7:LerArquivoCias(TodasCias);
                         break;
                     default:
                         break;
@@ -369,11 +368,14 @@ namespace OnTheFly_projeto
                 case 1:
                     Cadastro();
                     break;
-                case 2:cia.CadastrarBloqueadas(bloqueadas);
+                case 2:
+                    cia.CadastrarBloqueadas(bloqueadas);
                     break;
-                case 3:cia.RemoverBloqueadas(bloqueadas);
+                case 3:
+                    cia.RemoverBloqueadas(bloqueadas);
                     break;
-                case 4:cia.LocalizarBloqueadas(bloqueadas);
+                case 4:
+                    cia.LocalizarBloqueadas(bloqueadas);
                     break;
                 case 0:
                     Environment.Exit(0);
@@ -405,7 +407,7 @@ namespace OnTheFly_projeto
             }
             Console.WriteLine("\nAperte Enter para continuar...");
             Console.ReadKey();
-        }  
+        }
         public static void ImprimirArquivoCias()
         {
             string line;
@@ -437,11 +439,11 @@ namespace OnTheFly_projeto
                 string dv = line.Substring(8, 10);
                 dv = dv.Substring(0, 2) + '/' + dv.Substring(2, 2) + "//" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
                 CompanhiaAerea c = new CompanhiaAerea();
-                while (line != null) 
+                while (line != null)
                 {
                     c.RazaoSocial = line.Substring(0, 49);
                     c.Cnpj = line.Substring(49, 14);
-                    c.DataAbertura = DateTime.Parse(line.Substring(63,10));
+                    c.DataAbertura = DateTime.Parse(line.Substring(63, 10));
                     c.DataCadastro = DateTime.Parse(line.Substring(73, 10));
                     c.UltimoVoo = DateTime.Parse(dv);
                     c.Situacao = char.Parse(line.Substring(73));
