@@ -29,20 +29,19 @@ namespace OnTheFly_projeto
         {
 
         }
-        public CompanhiaAerea CadastrarCia() 
+        public void CadastrarCia() 
         {
-            CompanhiaAerea ciaAerea = new CompanhiaAerea();
 
-            ciaAerea.UltimoVoo = DateTime.Now;
-            ciaAerea.DataCadastro = DateTime.Now;
-            ciaAerea.Situacao = 'A';
+            this.UltimoVoo = DateTime.Now;
+            this.DataCadastro = DateTime.Now;
+            this.Situacao = 'A';
             
             Console.Clear();
 
             Console.WriteLine("Digite o CNPJ da Companhia Aérea: ");
-            ciaAerea.Cnpj = Console.ReadLine();
+            this.Cnpj = Console.ReadLine();
 
-            if (ValidarCnpj(ciaAerea.Cnpj))
+            if (ValidarCnpj(this.Cnpj))
             {
                 //while (LocalizarCnpjDuplicado(ListTodasCias, ciaAerea.Cnpj) == true)
                 //{
@@ -52,17 +51,17 @@ namespace OnTheFly_projeto
                 //}
                 Console.WriteLine("Digite a data de abertura da Companhia: ");
 
-                ciaAerea.DataAbertura = DateTime.Parse(Console.ReadLine());
-                System.TimeSpan tempoAbertura = DateTime.Now.Subtract(ciaAerea.DataAbertura);
+                this.DataAbertura = DateTime.Parse(Console.ReadLine());
+                System.TimeSpan tempoAbertura = DateTime.Now.Subtract(this.DataAbertura);
 
                 if (tempoAbertura.TotalDays > 190)
                 {
                     do
                     {
                         Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
-                        ciaAerea.RazaoSocial = Console.ReadLine();
+                        this.RazaoSocial = Console.ReadLine();
                         
-                    } while (ciaAerea.RazaoSocial.Length > 50);
+                    } while (this.RazaoSocial.Length > 50);
 
                     Console.WriteLine("Companhia Cadastrada com Sucesso!\n\nAperte enter para continuar...");
                     Console.ReadKey();
@@ -79,8 +78,7 @@ namespace OnTheFly_projeto
                 Console.ReadKey();
                 CadastrarCia();
             }
-            return ciaAerea;
-        }
+        }//VALIDAR DUPLICIDADE DE CNPJ
         public bool ValidarCnpj(string cnpj)
         {
             int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -144,7 +142,7 @@ namespace OnTheFly_projeto
         }
         public override string ToString() //NÃO ESTÁ IMPRIMINDO AS INFOS
         {
-            return $"CNPJ: {Cnpj}\nRazão Social: {this.RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}";
+            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
         }
     }
 }

@@ -329,7 +329,7 @@ namespace OnTheFly_projeto
         #region manipulação de arquivo cias aéreas
         public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
         {
-            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt");
+            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt", true);
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
@@ -435,6 +435,42 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
+        public static CompanhiaAerea LerCiaArquivoAtivos()
+        {
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
+
+                string[] informacoes;
+
+                List<string> ciasAereas = new List<string>(); 
+
+                foreach (string line in lines) 
+                {
+                    informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
+
+                    if (informacoes.Length == 4) 
+                    {
+                        for (int i = 0; i < informacoes.Length; i++)
+                            ciasAereas.Add(informacoes[i]); 
+                    }
+                    else
+                        return new CompanhiaAerea(); 
+                }
+                return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(),DateTime.Parse(ciasAereas[2].ToString()),DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()),char.Parse(ciasAereas[5].ToString()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
+                Console.ReadLine();
+            }
+            return new CompanhiaAerea(); 
+        }//MUDAR ARQUIVO PARA .DAT
+
 
         #endregion
 
