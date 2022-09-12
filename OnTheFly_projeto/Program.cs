@@ -281,8 +281,8 @@ namespace OnTheFly_projeto
             int op;
             do
             {
-                Console.Clear();
-                Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cliente\n3- Remover Cliente\n4- Visualizar lista\n0- Sair");
+                
+                Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Cadastrar\n3- Localizar\n4-Remover\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -290,11 +290,11 @@ namespace OnTheFly_projeto
                     case 1:
                         Cadastro();
                         break;
-                    case 2: restrito.InserirRestrito(restritos);
+                    case 2: restrito.CadastrarRestrito(restritos);
                         break;
-                    case 3:
+                    case 3: restrito.LocalizarRestrito(restritos);
                         break;
-                    case 4:
+                    case 4: restrito.RetirarRestrito(restritos);
                         break;
                     case 0:
                         Environment.Exit(0);
