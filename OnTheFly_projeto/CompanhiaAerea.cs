@@ -9,7 +9,7 @@ namespace OnTheFly_projeto
 {
     internal class CompanhiaAerea
     {
-        public String Cnpj { get; set; } 
+        public String Cnpj { get; set; }
         public String RazaoSocial { get; set; }
         public DateTime DataAbertura { get; set; }
         public DateTime UltimoVoo { get; set; }
@@ -29,13 +29,12 @@ namespace OnTheFly_projeto
         {
 
         }
-        public void CadastrarCia() 
+        public void CadastrarCia(List<CompanhiaAerea> TodasCias) //VALIDAR DUPLICIDADE DE CNPJ
         {
-
             this.UltimoVoo = DateTime.Now;
             this.DataCadastro = DateTime.Now;
             this.Situacao = 'A';
-            
+
             Console.Clear();
 
             Console.WriteLine("Digite o CNPJ da Companhia Aérea: ");
@@ -43,14 +42,14 @@ namespace OnTheFly_projeto
 
             if (ValidarCnpj(this.Cnpj))
             {
-                //while (LocalizarCnpjDuplicado(ListTodasCias, ciaAerea.Cnpj) == true)
-                //{
-                //    Console.WriteLine("CNPJ já cadastrado, tente outro CNPJ!");
-                //    Console.WriteLine("Digite o CNPJ da Companhia Aérea:" );
-                //    ciaAerea.Cnpj = Console.ReadLine();
-                //}
-                Console.WriteLine("Digite a data de abertura da Companhia: ");
+                while (VerificaDuplicidadeCnpj(TodasCias, this.Cnpj) == true)
+                {
+                    Console.WriteLine("CNPJ já cadastrado, use outro CNPJ.");
+                    Console.WriteLine("Digite o CNPJ da Companhia Aérea: ");
+                    this.Cnpj = Console.ReadLine();
+                }
 
+                Console.WriteLine("Digite a data de abertura da Companhia: ");
                 this.DataAbertura = DateTime.Parse(Console.ReadLine());
                 System.TimeSpan tempoAbertura = DateTime.Now.Subtract(this.DataAbertura);
 
@@ -60,7 +59,7 @@ namespace OnTheFly_projeto
                     {
                         Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
                         this.RazaoSocial = Console.ReadLine();
-                        
+
                     } while (this.RazaoSocial.Length > 50);
 
                     Console.WriteLine("Companhia Cadastrada com Sucesso!\n\nAperte enter para continuar...");
@@ -76,9 +75,10 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("CNPJ inválido!\n\nAperte enter para continuar...");
                 Console.ReadKey();
-                CadastrarCia();
+                CadastrarCia(TodasCias);
             }
-        }//VALIDAR DUPLICIDADE DE CNPJ
+            TodasCias.Add(this);
+        }
         public bool ValidarCnpj(string cnpj)
         {
             int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -127,10 +127,10 @@ namespace OnTheFly_projeto
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
-        public bool LocalizarCnpjDuplicado(List<CompanhiaAerea> ListTodasCias, String Cnpj)
+        public bool VerificaDuplicidadeCnpj(List<CompanhiaAerea> TodasCias, string cnpj) //NÃO ESTÁ FUNCIONANDO
         {
-            CompanhiaAerea ciaDuplicada = ListTodasCias.Find(cia => cia.Cnpj == Cnpj);
-            if (ciaDuplicada == null)
+            CompanhiaAerea encontrouCia = TodasCias.Find(CiaAerea => CiaAerea.Cnpj == cnpj);
+            if (encontrouCia == null)
             {
                 return false;
             }
@@ -140,13 +140,183 @@ namespace OnTheFly_projeto
                 return true;
             }
         }
-        public override string ToString() //NÃO ESTÁ IMPRIMINDO AS INFOS
+        public void LocalizarCiaAerea(List<CompanhiaAerea> TodasCias)
         {
-            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
+            Console.WriteLine("Digite o CNPJ que deseja buscar: ");
+            string cnpj = Console.ReadLine();
+            CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
+
+            if (encontrouCia == null)
+            {
+                Console.WriteLine("Não existe um registro para esse CNPJ.");
+            }
+
+            else
+            {
+                Console.WriteLine("Razão Social: " + encontrouCia.RazaoSocial);
+                Console.WriteLine("Ultimo Vôo: " + encontrouCia.UltimoVoo);
+                Console.WriteLine("Data Abertura: " + encontrouCia.DataAbertura);
+                Console.WriteLine("Data Cadastro: " + encontrouCia.DataCadastro);
+                Console.WriteLine("Situacao: " + encontrouCia.Situacao);
+            }
+
+
+        }
+        public void EditarCia(List<CompanhiaAerea> TodasCias) //VALIDAR DATA ABERTURA
+        {
+            Console.WriteLine("Digite o CNPJ que deseja editar: ");
+            string cnpj = Console.ReadLine();
+            CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
+
+            if (encontrouCia == null)
+            {
+                Console.WriteLine("Companhia aérea não localizada");
+
+            }
+
+            else
+            {
+                int opc;
+
+                Console.WriteLine("Digite a opção que deseja editar");
+                Console.WriteLine("1- Razão Social");
+                Console.WriteLine("2- Data de Abertura");
+                Console.WriteLine("3- Data do Ultimo Vôo");
+                Console.WriteLine("4- Data cadastro");
+                Console.WriteLine("5- Situação");
+                opc = int.Parse(Console.ReadLine());
+                while (opc < 1 || opc > 5)
+                {
+                    Console.WriteLine("Digite uma opcao valida:");
+                    opc = int.Parse(Console.ReadLine());
+                }
+
+                switch (opc)
+                {
+                    case 1:
+                        Console.WriteLine("Informe a Razão Social: ");
+                        string razao = Console.ReadLine();
+                        encontrouCia.RazaoSocial = razao;
+                        break;
+                    case 2:
+                        Console.WriteLine("Informe a data de abertura: "); //validação 6 meses
+                        DateTime data = DateTime.Parse(Console.ReadLine());
+                        encontrouCia.DataAbertura = data;
+                        break;
+                    case 3:
+                        Console.WriteLine("Informe a data do ultimo vôo: ");
+                        DateTime ultimoVoo = DateTime.Parse(Console.ReadLine());
+                        encontrouCia.UltimoVoo = ultimoVoo;
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Informe a data de cadastro: ");
+                        DateTime dataCadastro = DateTime.Parse(Console.ReadLine());
+                        encontrouCia.DataCadastro = dataCadastro;
+                        break;
+                    case 5:
+                        Console.WriteLine("Informe a situação: ");
+                        char situacao = char.Parse(Console.ReadLine());
+                        encontrouCia.Situacao = situacao;
+                        break;
+                }
+            }
+        }
+        public void ImprimirCiaEspecifica(List<CompanhiaAerea> TodasCias)
+        {
+            Console.WriteLine("Digite o cpf: ");
+            string cnpj = Console.ReadLine();
+            CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
+
+            if (encontrouCia == null)
+            {
+                Console.WriteLine("Não existe um registro para esse CNPJ.");
+            }
+
+            else
+            {
+                Console.WriteLine($"Razão Social: {encontrouCia.RazaoSocial}\n");
+                Console.WriteLine($"CNPJ: {encontrouCia.Cnpj}\n");
+                Console.WriteLine($"Data de abertura: {encontrouCia.DataAbertura}\n");
+                Console.WriteLine($"Data Do Último Vôo: {encontrouCia.UltimoVoo}\n");
+                Console.WriteLine($"Data do cadastro: {encontrouCia.DataCadastro}\n");
+                Console.WriteLine($"Situacao: {encontrouCia.Situacao}\n");
+            }
+
+        }
+        public void ImprimirTodasCias(List<CompanhiaAerea> TodasCias)
+        {
+            foreach (CompanhiaAerea cia in TodasCias)
+            {
+                if (cia.Situacao == 'A')
+                {
+                    Console.WriteLine($"Razão Social: {cia.RazaoSocial}\n");
+                    Console.WriteLine($"CNPJ: {cia.Cnpj}\n");
+                    Console.WriteLine($"Data de abertura: {cia.DataAbertura}\n");
+                    Console.WriteLine($"Data Do Último Vôo: {cia.UltimoVoo}\n");
+                    Console.WriteLine($"Data do cadastro: {cia.DataCadastro}\n");
+                    Console.WriteLine($"Situacao: {cia.Situacao}\n");
+                }
+            }
+        }
+        public void CadastrarBloqueadas(List<string> bloqueadas)
+        {
+            Console.WriteLine("Digite o CPF bloqueado: ");
+            string cnpj = Console.ReadLine();
+
+            while (ValidarCnpj(cnpj) == false)
+
+                Console.WriteLine("CNPJ inválido, tente novamente: ");
+            cnpj = Console.ReadLine();
+
+            string encontrouBloqueado = bloqueadas.Find(bloqueadas => bloqueadas == cnpj);
+
+            if (encontrouBloqueado != null)
+            {
+                Console.WriteLine("CNPJ já cadastrado!!\n\nAperte enter para continuar...");
+                Console.ReadKey();
+
+            }
+            else
+            {
+                Console.WriteLine("Cadastro efetuado com sucesso!");
+                bloqueadas.Add(cnpj);
+            }
+
+        }
+        public void LocalizarBloqueado(List<string> bloqueadas)
+        {
+            Console.WriteLine("Digite o CNPJ que deseja consultar: ");
+            string cnpj = Console.ReadLine();
+            string encontrouBloqueado = bloqueadas.Find(bloqueadas => bloqueadas == cnpj);
+
+            if (encontrouBloqueado != null)
+            {
+                Console.WriteLine("Esse CNPJ é restrito!");
+
+            }
+
+            else
+            {
+                Console.WriteLine("Não há nenhuma restrição para este CNPJ!");
+            }
+        }
+        public void RetirarBloqueado(List<string> restritos)
+        {
+            Console.WriteLine("Digite o CPF para remover: ");
+            string cpf = Console.ReadLine();
+            string encontrouRestrito = restritos.Find(restrito => restrito == cpf);
+
+            if (encontrouRestrito != null)
+            {
+                restritos.Remove(encontrouRestrito);
+                Console.WriteLine("O CPF foi removido da lista de restritros");
+            }
+
+        }
+        public override string ToString()
+        {
+            return $"\nCNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
         }
     }
 }
-
-
-
-

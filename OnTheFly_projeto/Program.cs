@@ -6,7 +6,7 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-        static List<CompanhiaAerea> ListCiasBloqueadas = new List<CompanhiaAerea>();
+        
 
         static void Main(string[] args)
         {
@@ -115,7 +115,15 @@ namespace OnTheFly_projeto
         public static void CiaAerea()
         {
             int op;
+
+            List<CompanhiaAerea> CiasAtivas = new List <CompanhiaAerea>();
+            List<CompanhiaAerea> CiasInativas = new List<CompanhiaAerea>();
+            List<CompanhiaAerea> CiasBloqueadas = new List<CompanhiaAerea>();
+            List<string> bloqueadas = new List<string>();
+            List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
+
             CompanhiaAerea cia = new CompanhiaAerea();
+            
             do
             {
                 Console.Clear();
@@ -132,13 +140,11 @@ namespace OnTheFly_projeto
                         Opcoes();
                         break;
                     case 2:
-                        cia.CadastrarCia();
-                        GravarArquivoAtivas(cia);
-                        GravarTodasCias(cia);
+                        cia.CadastrarCia(TodasCias);
                         Menu();
                         break;
                     case 3:
-                        
+                        cia.LocalizarCiaAerea(TodasCias);  
                         break;
                     case 4:
                         
@@ -334,36 +340,101 @@ namespace OnTheFly_projeto
         #endregion
 
         #region manipulação de arquivo cias aéreas
-        public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) 
+        //public static void GravarArquivoCiasAtivas(List <CompanhiaAerea>CiasAtivas) 
+        //{
+        //    StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.dat", true);
+        //    sw.WriteLine(CiasAtivas.ToString());
+        //    sw.Close();
+        //}
+        //public static void GravarArquivoCiasInativas(List<CompanhiaAerea> CiasInativas) 
+        //{
+        //    StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.dat",true);
+        //    sw.WriteLine(CiasInativas.ToString());
+        //    sw.Close();
+        //}
+        //public static void GravarArquivoCiasBloqueadas(List<CompanhiaAerea> CiasBloqueadas) 
+        //{
+        //    StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.dat",true);
+        //    sw.WriteLine(CiasBloqueadas.ToString());
+        //    sw.Close();
+        //}
+        public static void GravarArquivoTodasCias(List<CompanhiaAerea> TodasCias) 
         {
-            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.dat", true);
-            sw.WriteLine(ciaAerea.ToString());
+            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroTodasCias.dat,", true);
+            sw.WriteLine(TodasCias.ToString());
             sw.Close();
         }
-        public static void GravarArquivoInativas(CompanhiaAerea ciaAerea) 
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.dat");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public static void GravarArquivoBloqueadas(CompanhiaAerea ciaAerea) 
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.dat");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public static void GravarTodasCias(CompanhiaAerea ciaAerea) 
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\ListTodasCias.dat");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public static void LerArquivoAtivas() 
+        //public static void LerArquivoCiasAtivas(List<CompanhiaAerea> CiasAtivas) 
+        //{
+        //    string line;
+        //    string filename = @"c:\\Listas\\CadastroCiasAtivas.dat";
+        //    try
+        //    {
+        //        StreamReader sr = new StreamReader(filename);
+        //        line = sr.ReadLine();
+        //        while (line != null)
+        //        {
+        //            Console.WriteLine(line);
+        //            line = sr.ReadLine();
+        //        }
+        //        sr.Close();
+        //        Console.WriteLine("Fim do arquivo.");
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Erro: " + e.Message);
+        //    }
+        //    Console.ReadKey();
+        //}
+        //public static void LerArquivoCiasInativas(List<CompanhiaAerea> CiasInativas) 
+        //{
+        //    string line;
+        //    try
+        //    {
+        //        StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.dat");
+        //        line = sr.ReadLine();
+        //        while (line != null)
+        //        {
+        //            Console.WriteLine(line);
+        //            line = sr.ReadLine();
+        //        }
+        //        sr.Close();
+        //        Console.WriteLine("Fim do arquivo.");
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Erro: " + e.Message);
+        //    }
+        //}
+        //public static void LerArquivoBloqueadas(List<CompanhiaAerea> CiasBloqueadas) 
+        //{
+        //    string line;
+        //    try
+        //    {
+        //        StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.dat");
+        //        line = sr.ReadLine();
+        //        while (line != null)
+        //        {
+        //            Console.WriteLine(line);
+        //            line = sr.ReadLine();
+        //        }
+        //        sr.Close();
+        //        Console.WriteLine("Fim do arquivo.");
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Erro: " + e.Message);
+        //    }
+        //}
+        public static void LerArquivoTodasCias(List<CompanhiaAerea> TodasCias) 
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasAtivas.dat");
+                StreamReader sr = new StreamReader("c:\\Listas\\CadastroTodasCias.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -379,104 +450,41 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        public static void LerArquivoInativas() 
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.dat");
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("Fim do arquivo.");
+        //public static CompanhiaAerea LerCiaArquivoAtivos()
+        //{
+        //    try
+        //    {
+        //        string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-        }
-        public static void LerArquivoBloqueadas() 
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.dat");
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("Fim do arquivo.");
+        //        string[] informacoes;
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-        }
-        public static void LerArquivoTodasCias() 
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("c:\\Listas\\ListTodasCias.dat");
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("Fim do arquivo.");
+        //        List<string> ciasAereas = new List<string>(); 
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-        }
-        public static CompanhiaAerea LerCiaArquivoAtivos()
-        {
-            try
-            {
-                string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
+        //        foreach (string line in lines) 
+        //        {
+        //            informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
 
-                string[] informacoes;
-
-                List<string> ciasAereas = new List<string>(); 
-
-                foreach (string line in lines) 
-                {
-                    informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
-
-                    if (informacoes.Length == 4) 
-                    {
-                        for (int i = 0; i < informacoes.Length; i++)
-                            ciasAereas.Add(informacoes[i]); 
-                    }
-                    else
-                        return new CompanhiaAerea(); 
-                }
-                return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(),DateTime.Parse(ciasAereas[2].ToString()),DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()),char.Parse(ciasAereas[5].ToString()));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
-                Console.ReadLine();
-            }
-            return new CompanhiaAerea(); 
-        }//MUDAR ARQUIVO PARA .DAT
+        //            if (informacoes.Length == 4) 
+        //            {
+        //                for (int i = 0; i < informacoes.Length; i++)
+        //                    ciasAereas.Add(informacoes[i]); 
+        //            }
+        //            else
+        //                return new CompanhiaAerea(); 
+        //        }
+        //        return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(),DateTime.Parse(ciasAereas[2].ToString()),DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()),char.Parse(ciasAereas[5].ToString()));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Exception: " + e.Message);
+        //    }
+        //    finally
+        //    {
+        //        Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
+        //        Console.ReadLine();
+        //    }
+        //    return new CompanhiaAerea(); 
+        //}
 
 
         #endregion
