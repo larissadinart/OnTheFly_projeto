@@ -6,9 +6,6 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-        static List<CompanhiaAerea> ListCiasAtivas = new List<CompanhiaAerea>();
-        static List<CompanhiaAerea> ListCiasInativas = new List<CompanhiaAerea>();
-        static List<CompanhiaAerea> ListTodasCias = new List<CompanhiaAerea>();
         static List<CompanhiaAerea> ListCiasBloqueadas = new List<CompanhiaAerea>();
 
         static void Main(string[] args)
@@ -16,6 +13,7 @@ namespace OnTheFly_projeto
             Menu();
         }
 
+        #region menus 
         public static void Menu()
         {
             Console.Clear();
@@ -135,13 +133,15 @@ namespace OnTheFly_projeto
                         break;
                     case 2:
                         cia.CadastrarCia();
+                        GravarArquivoAtivas(cia);
+                        GravarTodasCias(cia);
                         Menu();
                         break;
                     case 3:
-                        BuscarCiasAereasLista();
+                        
                         break;
                     case 4:
-                        EditarCiaAereaLista();
+                        
                         break;
                     case 5: //imprimir por registro
                         break;
@@ -330,9 +330,13 @@ namespace OnTheFly_projeto
                     break;
             }
         }
+
+        #endregion
+
+        #region manipulação de arquivo cias aéreas
         public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
         {
-            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt");
+            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt", true);
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
@@ -345,6 +349,12 @@ namespace OnTheFly_projeto
         public static void GravarArquivoBloqueadas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
         {
             StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.txt");
+            sw.WriteLine(ciaAerea.ToString());
+            sw.Close();
+        }
+        public static void GravarTodasCias(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        {
+            StreamWriter sw = new StreamWriter("c:\\Listas\\ListTodasCias.txt");
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
@@ -411,159 +421,65 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        public static void AddCiaAereaAtiva(CompanhiaAerea ciaAerea)
+        public static void LerArquivoTodasCias() //MUDAR ARQUIVO PARA .DAT
         {
-            ListCiasAtivas.Add(ciaAerea);
-        }
-        public static void AddCiaAereaInativa(CompanhiaAerea ciaAerea)
-        {
-            ListCiasInativas.Add(ciaAerea);
-        }
-        public static void AddCiaListBloqueadas(CompanhiaAerea ciaAerea)
-        {
-            ListCiasBloqueadas.Add(ciaAerea);
-        }
-        public static void AddListTodasCias(CompanhiaAerea ciaAerea)
-        {
-            ListTodasCias.Add(ciaAerea);
-        }
-        public static void RemoveCiaAereaAtiva(CompanhiaAerea ciaAerea)
-        {
-            ListCiasAtivas.Remove(ciaAerea);
-        }
-        public static void RemoveCiaAereaInativa(CompanhiaAerea ciaAerea)
-        {
-            ListCiasInativas.Remove(ciaAerea);
-        }
-        public static void RemoveCiaListBloqueadas(CompanhiaAerea ciaAerea)
-        {
-            ListCiasBloqueadas.Remove(ciaAerea);
-        }
-        public static CompanhiaAerea BuscarCiasAereasLista()
-        {
-            int opcao;
-
-            foreach (var item in ListCiasAtivas)
-                if (item != null)
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("c:\\Listas\\ListTodasCias.txt");
+                line = sr.ReadLine();
+                while (line != null)
                 {
-                    return item;
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
                 }
-                else
-                {
-                    do
-                    {
-                        Console.WriteLine("Não existem Companhias Aéreas cadastradas!\n\nO que deseja fazer?\n1- Cadastrar CCompanhia\n2- Sair");
-                        opcao = int.Parse(Console.ReadLine());
+                sr.Close();
+                Console.WriteLine("Fim do arquivo.");
 
-                        switch (opcao)
-                        {
-                            case 1:
-                                //cia.CadastrarCia();
-                                break;
-                            case 2:
-                                Environment.Exit(0);
-                                break;
-                        }
-                    } while (opcao < 1 || opcao > 2);
-                }
-            return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erro: " + e.Message);
+            }
         }
-        public static CompanhiaAerea EditarCiaAereaLista() //COMO EDITAR E DEVOLVER PARA A LISTA EDITADO?
+        public static CompanhiaAerea LerCiaArquivoAtivos()
         {
-            int opcao, op = 0;
-            string cnpj = "";
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines("c:\\Listas\\CadastroCiasAtivas.txt");
 
-            CompanhiaAerea ciaBuscada = new CompanhiaAerea(cnpj);
+                string[] informacoes;
 
-            Console.WriteLine("Digite o CNPJ da companhia aérea que deseja editar: ");
-            ciaBuscada.Cnpj = Console.ReadLine();
+                List<string> ciasAereas = new List<string>(); 
 
-            foreach (var item in ListCiasAtivas)
-                if (ciaBuscada != null && ciaBuscada == item)
+                foreach (string line in lines) 
                 {
-                    Console.WriteLine("Qual informação deseja alterar?\n1- Razão Social\n2- Data do último vôo\n3- Data de Abertura\n4- Situação");
-                    switch (op)
+                    informacoes = line.Split(';');//TIRAR CARACTERE DELIMITADOR
+
+                    if (informacoes.Length == 4) 
                     {
-                        case 1:
-                            do
-                            {
-                                Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
-                                ciaBuscada.RazaoSocial = Console.ReadLine();
-
-                            } while (ciaBuscada.RazaoSocial.Length > 50);
-                            Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                            Console.ReadKey();
-                            break;
-                        case 2:
-                            do
-                            {
-                                Console.WriteLine("Data do último vôo:");
-                                ciaBuscada.UltimoVoo = DateTime.Parse(Console.ReadLine());
-
-                            } while (ciaBuscada.UltimoVoo > DateTime.Now);
-                            Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                            Console.ReadKey();
-                            break;
-                        case 3:
-                            Console.WriteLine("Digite a data de abertura:");
-                            ciaBuscada.DataAbertura = DateTime.Parse(Console.ReadLine());
-                            System.TimeSpan tempoAbertura = DateTime.Now.Subtract(ciaBuscada.DataAbertura);
-                            if (tempoAbertura.TotalDays > 190)
-                            {
-                                Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                                Console.ReadKey();
-                            }
-                            else
-                            {
-                                Console.WriteLine("Data inválida!\n\nAperte enter para continuar...");
-                                Console.ReadKey();
-                            }
-                            break;
-                        case 4:
-                            do
-                            {
-                                Console.WriteLine("Digite a situação: \nA-Ativo\nI-Inativo");
-                                ciaBuscada.Situacao = char.Parse(Console.ReadLine());
-                                ciaBuscada.Situacao = Char.ToUpper(ciaBuscada.Situacao);
-
-                            } while (ciaBuscada.Situacao != 'A' && ciaBuscada.Situacao != 'I');
-
-                            if (ciaBuscada.Situacao == 'A')
-                            {
-                                RemoveCiaAereaInativa(ciaBuscada);
-                                AddCiaAereaAtiva(ciaBuscada);
-                                GravarArquivoAtivas(ciaBuscada);
-                            }
-                            else if (ciaBuscada.Situacao == 'I')
-                            {
-                                RemoveCiaAereaAtiva(ciaBuscada);
-                                AddCiaAereaInativa(ciaBuscada);
-                                GravarArquivoInativas(ciaBuscada);
-                            }
-                            break;
+                        for (int i = 0; i < informacoes.Length; i++)
+                            ciasAereas.Add(informacoes[i]); 
                     }
+                    else
+                        return new CompanhiaAerea(); 
+                }
+                return new CompanhiaAerea(ciasAereas[0].ToString(), ciasAereas[1].ToString(),DateTime.Parse(ciasAereas[2].ToString()),DateTime.Parse(ciasAereas[3].ToString()), DateTime.Parse(ciasAereas[4].ToString()),char.Parse(ciasAereas[5].ToString()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executando o Bloco de Comandos.\n\nPressione qualquer telcla para continuar...");
+                Console.ReadLine();
+            }
+            return new CompanhiaAerea(); 
+        }//MUDAR ARQUIVO PARA .DAT
 
-                }
-                else
-                {
-                    do
-                    {
-                        Console.WriteLine("Não existem Companhias Aéreas cadastradas!\n\nO que deseja fazer?\n1- Cadastrar CCompanhia\n2- Sair");
-                        opcao = int.Parse(Console.ReadLine());
-                        switch (opcao)
-                        {
-                            case 1:
-                                ciaBuscada.CadastrarCia();
-                                break;
-                            case 2:
-                                Environment.Exit(0);
-                                break;
-                        }
-                        return ciaBuscada;
-                    } while (opcao < 1 || opcao > 2);
-                }
-            return null;
-        }
+
+        #endregion
 
     }
 }

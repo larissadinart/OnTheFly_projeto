@@ -9,18 +9,13 @@ namespace OnTheFly_projeto
 {
     internal class CompanhiaAerea
     {
-        public String Cnpj { get; set; } // CHAVE!!! 
+        public String Cnpj { get; set; } 
         public String RazaoSocial { get; set; }
         public DateTime DataAbertura { get; set; }
         public DateTime UltimoVoo { get; set; }
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
 
-
-        public CompanhiaAerea()
-        {
-
-        }
         public CompanhiaAerea(String cnpj, String razaoSocial, DateTime dataAbertura, DateTime ultimoVoo, DateTime dataCadastro, char situacao)
         {
             this.Cnpj = cnpj;
@@ -30,38 +25,46 @@ namespace OnTheFly_projeto
             this.DataCadastro = dataCadastro;
             this.Situacao = situacao;
         }
-        public CompanhiaAerea(string cnpj)
+        public CompanhiaAerea()
         {
 
         }
-        public CompanhiaAerea CadastrarCia() ///VALIDAR SE CPF JA EXISTE NA LISTA
+        public void CadastrarCia() 
         {
-            String cnpj = "", razaoSocial = "";
-            DateTime dataAbertura = new DateTime();
-            DateTime ultimoVoo = DateTime.Now;
-            DateTime dataCadastro = DateTime.Now;
-            char situacao = 'A';
 
-            CompanhiaAerea ciaAerea = new CompanhiaAerea(cnpj, razaoSocial, dataAbertura, ultimoVoo, dataCadastro, situacao);
+            this.UltimoVoo = DateTime.Now;
+            this.DataCadastro = DateTime.Now;
+            this.Situacao = 'A';
+            
             Console.Clear();
-            Console.WriteLine("Digite o CNPJ da Companhia Aérea (somente números): ");
-            cnpj = Console.ReadLine();
-            if (ValidarCnpj(cnpj))
+
+            Console.WriteLine("Digite o CNPJ da Companhia Aérea: ");
+            this.Cnpj = Console.ReadLine();
+
+            if (ValidarCnpj(this.Cnpj))
             {
+                //while (LocalizarCnpjDuplicado(ListTodasCias, ciaAerea.Cnpj) == true)
+                //{
+                //    Console.WriteLine("CNPJ já cadastrado, tente outro CNPJ!");
+                //    Console.WriteLine("Digite o CNPJ da Companhia Aérea:" );
+                //    ciaAerea.Cnpj = Console.ReadLine();
+                //}
                 Console.WriteLine("Digite a data de abertura da Companhia: ");
 
-                dataAbertura = DateTime.Parse(Console.ReadLine());
-                System.TimeSpan tempoAbertura = DateTime.Now.Subtract(dataAbertura);
+                this.DataAbertura = DateTime.Parse(Console.ReadLine());
+                System.TimeSpan tempoAbertura = DateTime.Now.Subtract(this.DataAbertura);
 
                 if (tempoAbertura.TotalDays > 190)
                 {
                     do
                     {
                         Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
-                        razaoSocial = Console.ReadLine();
+                        this.RazaoSocial = Console.ReadLine();
+                        
+                    } while (this.RazaoSocial.Length > 50);
 
-                    } while (razaoSocial.Length > 50);
-
+                    Console.WriteLine("Companhia Cadastrada com Sucesso!\n\nAperte enter para continuar...");
+                    Console.ReadKey();
                 }
                 else
                 {
@@ -75,8 +78,7 @@ namespace OnTheFly_projeto
                 Console.ReadKey();
                 CadastrarCia();
             }
-            return ciaAerea;
-        }
+        }//VALIDAR DUPLICIDADE DE CNPJ
         public bool ValidarCnpj(string cnpj)
         {
             int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -125,9 +127,22 @@ namespace OnTheFly_projeto
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
+        public bool LocalizarCnpjDuplicado(List<CompanhiaAerea> ListTodasCias, String Cnpj)
+        {
+            CompanhiaAerea ciaDuplicada = ListTodasCias.Find(cia => cia.Cnpj == Cnpj);
+            if (ciaDuplicada == null)
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+        }
         public override string ToString() //NÃO ESTÁ IMPRIMINDO AS INFOS
         {
-            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}";
+            return $"CNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
         }
     }
 }
