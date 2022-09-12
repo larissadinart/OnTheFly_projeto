@@ -219,13 +219,13 @@ namespace OnTheFly_projeto
             }
         }
 
-        public void InserirRestrito(List<string> restritos)
+        public void CadastrarRestrito(List<string> restritos)
         {
-            Console.WriteLine("Digite o cpf restrito: ");
+            Console.WriteLine("Digite o CPF restrito: ");
             string cpf = Console.ReadLine();
             while(ValidarCpf(cpf) == false || cpf.Length < 11)
             {
-                Console.WriteLine("Cpf invalido, insira novamente: ");
+                Console.WriteLine("CPF inválido, insira novamente: ");
                 cpf = Console.ReadLine();
             }
 
@@ -233,23 +233,47 @@ namespace OnTheFly_projeto
 
             if (encontrouRestrito != null)
             {
-                Console.WriteLine("Esse cpf já existe na lista de restritos!");
+                Console.WriteLine("Esse CPF já existe na lista de restritos!");
                 Console.WriteLine("Impossivel inserir novamente!");
             }
 
             else
+
             {
+                Console.WriteLine("Cadastro efetuado com sucesso!");
                 restritos.Add(cpf);
             }
         }
 
         public void LocalizarRestrito(List<string> restritos)
         {
+            Console.WriteLine("Digite o CPF para consultar: ");
+            string cpf = Console.ReadLine();
+            string encontrouRestrito = restritos.Find(restrito => restrito == cpf);
 
+            if (encontrouRestrito != null)
+            {
+                Console.WriteLine("Esse CPF é restrito pela Polícia Federal!");
+                
+            }
+
+            else
+            {
+                Console.WriteLine("Não há nenhuma restrição desse CPF na Polícia Federal!");
+            }
         }
 
         public void RetirarRestrito(List<string> restritos)
         {
+            Console.WriteLine("Digite o CPF para remover: ");
+            string cpf = Console.ReadLine();
+            string encontrouRestrito = restritos.Find(restrito => restrito == cpf);
+            
+            if(encontrouRestrito != null)
+            {
+                restritos.Remove(encontrouRestrito);
+                Console.WriteLine("O CPF foi removido da lista de restritros");
+            }
 
         }
 
