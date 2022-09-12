@@ -334,36 +334,36 @@ namespace OnTheFly_projeto
         #endregion
 
         #region manipulação de arquivo cias aéreas
-        public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) 
         {
-            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt", true);
+            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.dat", true);
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
-        public static void GravarArquivoInativas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        public static void GravarArquivoInativas(CompanhiaAerea ciaAerea) 
         {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.txt");
+            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.dat");
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
-        public static void GravarArquivoBloqueadas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        public static void GravarArquivoBloqueadas(CompanhiaAerea ciaAerea) 
         {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.txt");
+            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.dat");
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
-        public static void GravarTodasCias(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        public static void GravarTodasCias(CompanhiaAerea ciaAerea) 
         {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\ListTodasCias.txt");
+            StreamWriter sw = new StreamWriter("c:\\Listas\\ListTodasCias.dat");
             sw.WriteLine(ciaAerea.ToString());
             sw.Close();
         }
-        public static void LerArquivoAtivas() //MUDAR ARQUIVO PARA .DAT
+        public static void LerArquivoAtivas() 
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasAtivas.txt");
+                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasAtivas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -379,12 +379,12 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        public static void LerArquivoInativas() //MUDAR ARQUIVO PARA .DAT
+        public static void LerArquivoInativas() 
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.txt");
+                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -400,12 +400,12 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        public static void LerArquivoBloqueadas() //MUDAR ARQUIVO PARA .DAT
+        public static void LerArquivoBloqueadas() 
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.txt");
+                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -421,12 +421,12 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Erro: " + e.Message);
             }
         }
-        public static void LerArquivoTodasCias() //MUDAR ARQUIVO PARA .DAT
+        public static void LerArquivoTodasCias() 
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\ListTodasCias.txt");
+                StreamReader sr = new StreamReader("c:\\Listas\\ListTodasCias.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
