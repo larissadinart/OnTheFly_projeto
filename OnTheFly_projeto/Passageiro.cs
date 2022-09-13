@@ -357,7 +357,7 @@ namespace OnTheFly_projeto
             string passageiro;
             try
             {
-                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Passageiro.txt");
+                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Passageiro.dat");
                 foreach (Passageiro p in passageiros)
                 {
 
@@ -380,7 +380,7 @@ namespace OnTheFly_projeto
             string restrito;
             try
             {
-                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Restrito.txt");
+                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Restrito.dat");
                 foreach (string r in restritos)
                 {
 
@@ -401,7 +401,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Arquivo\\Restrito.txt");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Restrito.dat");
                 line = sr.ReadLine();
 
                 while (line != null)

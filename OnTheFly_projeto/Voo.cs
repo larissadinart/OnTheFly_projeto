@@ -208,7 +208,7 @@ namespace OnTheFly_projeto
             }
             try
             {
-                StreamWriter sw = new StreamWriter("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat", append: true);
+                StreamWriter sw = new StreamWriter("CC:\\Arquivo\\Voos.dat", append: true);
                 sw.WriteLine(msg);
                 sw.Close();
             }
@@ -225,7 +225,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Voo.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -245,7 +245,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Voo.dat");
                 line = sr.ReadLine();
                 string dv = line.Substring(8, 12);
                 dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);

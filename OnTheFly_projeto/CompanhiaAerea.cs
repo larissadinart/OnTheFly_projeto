@@ -230,32 +230,6 @@ namespace OnTheFly_projeto
                 }
             }
         }
-        //public void ImprimirCiaEspecifica(List<CompanhiaAerea> TodasCias)
-        //{
-        //    Console.WriteLine("Digite o CNPJ que deseja buscar: ");
-        //    string cnpj = Console.ReadLine();
-
-        //    CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
-
-        //    if (encontrouCia == null)
-        //    {
-        //        Console.WriteLine("Não existe um registro para esse CNPJ.\n\nAperte enter para continuar...");
-        //        Console.ReadKey();
-        //    }
-
-        //    else
-        //    {
-        //        Console.WriteLine($"Razão Social: {encontrouCia.RazaoSocial}\n");
-        //        Console.WriteLine($"CNPJ: {encontrouCia.Cnpj}\n");
-        //        Console.WriteLine($"Data de abertura: {encontrouCia.DataAbertura.ToShortDateString()}\n");
-        //        Console.WriteLine($"Data Do Último Vôo: {encontrouCia.UltimoVoo.ToShortDateString()}\n");
-        //        Console.WriteLine($"Data do cadastro: {encontrouCia.DataCadastro.ToShortDateString()}\n");
-        //        Console.WriteLine($"Situacao: {encontrouCia.Situacao}\n\n");
-        //        Console.WriteLine("Aperte enter para continuar...");
-        //        Console.ReadKey();
-        //    }
-
-        //}
         public void ImprimirTodasCias(List<CompanhiaAerea> TodasCias)
         {
             foreach (CompanhiaAerea cia in TodasCias)

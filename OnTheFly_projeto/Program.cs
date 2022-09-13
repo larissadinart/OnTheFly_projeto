@@ -471,7 +471,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\CiasAereas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -492,7 +492,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\CiasAereas.txt");
                 line = sr.ReadLine();
                 string dv = line.Substring(62, 12);
                 dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
