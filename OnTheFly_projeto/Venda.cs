@@ -33,7 +33,7 @@ namespace OnTheFly_projeto
         {
             Venda venda = new Venda();
 
-            venda.Id = GeraNumero(id);
+            venda.Id = GeraNumero();
             venda.DataVenda = DateTime.Now;
 
             Console.WriteLine("Digite o CPF do passageiro: ");
@@ -61,7 +61,7 @@ namespace OnTheFly_projeto
                         switch (op)
                         {
                             case 1:
-                                voo.LocalizarVoo(listaDeVoo);
+                                //voo.LocalizarVoo(listaDeVoo);
                                 break;
                             case 2:
                                 CadastrarVenda(passageiro, voo, passageiros, restritos);
@@ -76,8 +76,9 @@ namespace OnTheFly_projeto
                 }
             }
         }
-        public int GeraNumero(int nro)
+        public int GeraNumero()
         {
+            int nro = 0;
             int n = nro;
             if (n > 99999)
             {
