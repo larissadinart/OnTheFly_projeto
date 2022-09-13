@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnTheFly_projeto
 {
-
     internal class Venda
     {
         private int id;
-
         public int Id { get; set; } // CHAVE!!
         public DateTime DataVenda { get; set; }
         public String Passageiro { get; set; } //Deverá armazenar apenas o CPF do Passageiro, mas ao ser informado, deverá trazer o nome e a data de nascimento do cliente, para uma verificação junto ao mesmo.
@@ -18,7 +16,6 @@ namespace OnTheFly_projeto
         public Passageiro passageiro { get; set; }
         public Voo Voo { get; set; }
         public ItemVenda itemVenda { get; set; }
-
         public Venda()
         {
 
@@ -38,7 +35,6 @@ namespace OnTheFly_projeto
 
             venda.Id = GeraNumero(Id);
             venda.DataVenda = DateTime.Now;
-
             venda.DataVenda = DateTime.Now;
             Console.WriteLine("Digite o CPF do passageiro: ");
             passageiro.Cpf = Console.ReadLine();
@@ -93,9 +89,5 @@ namespace OnTheFly_projeto
             }
             return n;
         }
-
-
-
-
     }
 }
