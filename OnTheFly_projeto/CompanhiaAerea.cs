@@ -157,9 +157,9 @@ namespace OnTheFly_projeto
             else
             {
                 Console.WriteLine("Razão Social: " + encontrouCia.RazaoSocial);
-                Console.WriteLine("Ultimo Vôo: " + encontrouCia.UltimoVoo);
-                Console.WriteLine("Data Abertura: " + encontrouCia.DataAbertura);
-                Console.WriteLine("Data Cadastro: " + encontrouCia.DataCadastro);
+                Console.WriteLine("Ultimo Vôo: " + encontrouCia.UltimoVoo.ToShortDateString());
+                Console.WriteLine("Data Abertura: " + encontrouCia.DataAbertura.ToShortDateString());
+                Console.WriteLine("Data Cadastro: " + encontrouCia.DataCadastro.ToShortDateString()); ;
                 Console.WriteLine("Situacao: " + encontrouCia.Situacao);
                 Console.WriteLine("\n\nAperte enter para continuar...");
                 Console.ReadKey();
@@ -239,32 +239,32 @@ namespace OnTheFly_projeto
                 }
             }
         }
-        public void ImprimirCiaEspecifica(List<CompanhiaAerea> TodasCias)
-        {
-            Console.WriteLine("Digite o CNPJ que deseja buscar: ");
-            string cnpj = Console.ReadLine();
+        //public void ImprimirCiaEspecifica(List<CompanhiaAerea> TodasCias)
+        //{
+        //    Console.WriteLine("Digite o CNPJ que deseja buscar: ");
+        //    string cnpj = Console.ReadLine();
 
-            CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
+        //    CompanhiaAerea encontrouCia = TodasCias.Find(TodasCias => TodasCias.Cnpj == cnpj);
 
-            if (encontrouCia == null)
-            {
-                Console.WriteLine("Não existe um registro para esse CNPJ.\n\nAperte enter para continuar...");
-                Console.ReadKey();
-            }
+        //    if (encontrouCia == null)
+        //    {
+        //        Console.WriteLine("Não existe um registro para esse CNPJ.\n\nAperte enter para continuar...");
+        //        Console.ReadKey();
+        //    }
 
-            else
-            {
-                Console.WriteLine($"Razão Social: {encontrouCia.RazaoSocial}\n");
-                Console.WriteLine($"CNPJ: {encontrouCia.Cnpj}\n");
-                Console.WriteLine($"Data de abertura: {encontrouCia.DataAbertura.ToShortDateString()}\n");
-                Console.WriteLine($"Data Do Último Vôo: {encontrouCia.UltimoVoo.ToShortDateString()}\n");
-                Console.WriteLine($"Data do cadastro: {encontrouCia.DataCadastro.ToShortDateString()}\n");
-                Console.WriteLine($"Situacao: {encontrouCia.Situacao}\n\n");
-                Console.WriteLine("Aperte enter para continuar...");
-                Console.ReadKey();
-            }
+        //    else
+        //    {
+        //        Console.WriteLine($"Razão Social: {encontrouCia.RazaoSocial}\n");
+        //        Console.WriteLine($"CNPJ: {encontrouCia.Cnpj}\n");
+        //        Console.WriteLine($"Data de abertura: {encontrouCia.DataAbertura.ToShortDateString()}\n");
+        //        Console.WriteLine($"Data Do Último Vôo: {encontrouCia.UltimoVoo.ToShortDateString()}\n");
+        //        Console.WriteLine($"Data do cadastro: {encontrouCia.DataCadastro.ToShortDateString()}\n");
+        //        Console.WriteLine($"Situacao: {encontrouCia.Situacao}\n\n");
+        //        Console.WriteLine("Aperte enter para continuar...");
+        //        Console.ReadKey();
+        //    }
 
-        }
+        //}
         public void ImprimirTodasCias(List<CompanhiaAerea> TodasCias)
         {
             foreach (CompanhiaAerea cia in TodasCias)
@@ -317,19 +317,22 @@ namespace OnTheFly_projeto
             Console.WriteLine("Digite o CNPJ que deseja consultar: ");
             string cnpj = Console.ReadLine();
 
-            foreach (var item in bloqueadas)
+            if (bloqueadas.Count != 0)
             {
-                if (cnpj.Equals(item))
+                foreach (var item in bloqueadas)
                 {
-                    Console.WriteLine("\n\n" + item);
-                    Console.WriteLine("CNPJ bloqueado!\n\nAperte enter para continuar...");
-                    Console.ReadKey();
+                    if (cnpj.Equals(item))
+                    {
+                        Console.WriteLine("\n\n" + item);
+                        Console.WriteLine("CNPJ bloqueado!\n\nAperte enter para continuar...");
+                        Console.ReadKey();
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("CNPJ não encontrado!Aperte enter para continuar...");
-                    Console.ReadKey();
-                }
+            }
+            else
+            {
+                Console.WriteLine("CNPJ não encontrado!Aperte enter para continuar...");
+                Console.ReadKey();
             }
         }
         public void RemoverBloqueadas(List<string> bloqueadas)
@@ -352,4 +355,6 @@ namespace OnTheFly_projeto
             return $"\nCNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
         }
     }
+
+    
 }
