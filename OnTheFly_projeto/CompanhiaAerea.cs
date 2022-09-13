@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnTheFly_projeto
 {
@@ -136,7 +132,6 @@ namespace OnTheFly_projeto
                 {
                     return true;
                 }
-
             }
             return false;
         }
@@ -153,7 +148,6 @@ namespace OnTheFly_projeto
                 Console.WriteLine("Não existe um registro para esse CNPJ.\n\nAperte enter para continuar...");
                 Console.ReadKey();
             }
-
             else
             {
                 Console.WriteLine("Razão Social: " + encontrouCia.RazaoSocial);
@@ -164,8 +158,6 @@ namespace OnTheFly_projeto
                 Console.WriteLine("\n\nAperte enter para continuar...");
                 Console.ReadKey();
             }
-
-
         }
         public void EditarCia(List<CompanhiaAerea> TodasCias)
         {
@@ -196,7 +188,6 @@ namespace OnTheFly_projeto
                     Console.WriteLine("Digite uma opcao valida:");
                     opc = int.Parse(Console.ReadLine());
                 }
-
                 switch (opc)
                 {
                     case 1:
@@ -286,7 +277,6 @@ namespace OnTheFly_projeto
             Console.WriteLine("Digite o CNPJ bloqueado: ");
             string cnpj = Console.ReadLine();
             int encontrouCia = 0;
-
             while (ValidarCnpj(cnpj) == false)
             {
                 Console.WriteLine("CNPJ inválido, tente novamente: \n\nAperte enter para continuar...");
@@ -309,7 +299,6 @@ namespace OnTheFly_projeto
                 Console.ReadKey();
                 bloqueadas.Add(cnpj);
             }
-
         }
         public void LocalizarBloqueadas(List<string> bloqueadas) //NÃO ESTA ENTRANDO NO ELSE
         {
@@ -348,13 +337,10 @@ namespace OnTheFly_projeto
                 Console.WriteLine("O CNPJ foi removido da lista de bloqueados\n\nAperte enter para continuar...");
                 Console.ReadKey();
             }
-
         }
         public override string ToString()
         {
             return $"\nCNPJ: {Cnpj}\nRazão Social: {RazaoSocial}\nData de Abertura: {DataAbertura.ToShortDateString()}\nData Do Último Vôo: {UltimoVoo.ToShortDateString()}\nData de Cadastro: {DataCadastro.ToShortDateString()}\nSituação: {Situacao}\n\n";
         }
-    }
-
-    
+    }   
 }
