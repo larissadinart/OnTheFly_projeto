@@ -59,7 +59,7 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        venda.CadastrarVenda();
+                        //venda.CadastrarVenda();
                         break;
                     case 2:
                         Cliente();
