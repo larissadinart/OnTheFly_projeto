@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace OnTheFly_projeto
 {
@@ -142,6 +139,19 @@ namespace OnTheFly_projeto
         #endregion
 
         #region Verifica Aeronaves Ativas
+        public bool ExisteAeronave()
+        {
+            bool verifica = false;
+            if (Situacao.CompareTo('A') == 0)
+            {
+                verifica = true;
+            }
+            else
+            {
+                verifica = false;
+            }
+            return verifica;
+        }
         public bool ExisteAeronave(List<Aeronave> lista, List<Aeronave> ativo, List<Aeronave> inativo)
         {
             if (Situacao == 'A')
