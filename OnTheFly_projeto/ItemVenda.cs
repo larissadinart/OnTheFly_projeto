@@ -9,11 +9,12 @@ namespace OnTheFly_projeto
     internal class ItemVenda
     {
         public int Id { get; set; }
-        public PassagemVoo IdPassagem { get; set; }
-        public PassagemVoo ValorUnitario { get; set; }
+        public String IdPassagem { get; set; }
+        public double ValorUnitario { get; set; }
         public PassagemVoo passagem { get; set; }
+        public Venda venda { get; set; }
 
-        public ItemVenda(int id, PassagemVoo idPassagem, PassagemVoo valorUnitario)
+        public ItemVenda(int id, String idPassagem, double valorUnitario)
         {
             Id = id;
             IdPassagem = idPassagem;
@@ -23,13 +24,13 @@ namespace OnTheFly_projeto
         {
 
         }
-        public void CadastrarItemVenda()
+        public void CadastrarItemVenda(PassagemVoo passagem)
         {
             ItemVenda itemVenda = new ItemVenda();
 
             itemVenda.Id = GeraNumero();
-            //itemVenda.IdPassagem = passagem.Id;
-            //itemVenda.ValorUnitario = passagem.Valor;
+            itemVenda.IdPassagem = passagem.IdVoo;
+            itemVenda.ValorUnitario = passagem.Valor;
         }
         public int GeraNumero()
         {
