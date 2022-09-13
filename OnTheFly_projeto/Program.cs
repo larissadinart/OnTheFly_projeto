@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,18 +7,19 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-
         static CompanhiaAerea cia = new CompanhiaAerea();
         static Venda venda = new Venda();
         static List<string> bloqueadas = new List<string>();
         static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
-
-
+        static List<Voo> listaVoos = new List<Voo>();
+        //___________________Listas Para Aeronaves__________________________\\
+        static List<Aeronave> lista = new List<Aeronave>();
+        static List<Aeronave> ativo = new List<Aeronave>();
+        static List<Aeronave> inativo = new List<Aeronave>();
         static void Main(string[] args)
         {
             Menu();
         }
-
         #region menus 
         public static void Menu()
         {
@@ -27,10 +29,10 @@ namespace OnTheFly_projeto
             string usuario, usu = "admin";
             string senha, sen = "admin";
 
-            Console.WriteLine("Digite o usuário: ");
-            usuario = Console.ReadLine();
-            Console.WriteLine("Digite a senha: ");
-            senha = Console.ReadLine();
+                Console.WriteLine("Digite o usuário: ");
+                usuario = Console.ReadLine();
+                Console.WriteLine("Digite a senha: ");
+                senha = Console.ReadLine();
 
             if (usuario == usu && senha == sen)
             {
@@ -79,17 +81,18 @@ namespace OnTheFly_projeto
                     default:
                         break;
                 }
-            } while (op > 0 && op < 6);
+            } while (op < 0 || op > 6);
         }
         public static void Cliente()
         {
             List<Passageiro> passageiros = new List<Passageiro>();
             Passageiro passageiro = new Passageiro();
+            passageiro.LerPassageiros(passageiros);
 
             int op;
             do
             {
-
+                Console.Clear();
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -236,45 +239,59 @@ namespace OnTheFly_projeto
         }
         public static void Voos()
         {
-            int op;
+            int op;      
+            Voo voo = new Voo();
+            voo.LerArquivoVoo(listaVoos);
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5-  Imprimir dados do Arquivo\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
-
+                while (op < 0 || op > 5)
+                {
+                    Console.WriteLine("Opção inválida, informe novamente: ");
+                    Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir dados do Arquivo\n0- Sair");
+                    op = int.Parse(Console.ReadLine());
+                }
+                List<string> destinos = new List<string>();
+      
                 switch (op)
                 {
                     case 0:
-                        Environment.Exit(0);
+                        voo.GeraArquivoVoo(listaVoos);
+                        Environment.Exit(0); 
                         break;
                     case 1:
-                        Opcoes();
+                        Opcoes(); 
                         break;
-                    case 2:
+                    case 2: 
+                        voo.CadastrarVoo(listaVoos);
                         break;
-                    case 3:
+                    case 3: 
+                        voo.LocalizarVoo(listaVoos);
                         break;
-                    case 4:
+                    case 4: 
+                        voo.EditarVoo(listaVoos);
                         break;
                     case 5:
+                        voo.ImprimeArquivoVoo();
+                        Console.WriteLine("Aperte alguma tecla pra prosseguir!");
+                        Console.ReadKey();                   
                         break;
                     default:
                         break;
                 }
-            } while (op > 0 && op < 5);
+            } while (true);
         }
         public static void Avioes()
         {
+            Aeronave aero = new Aeronave();
             int op;
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Consultar\n4-Ler Registro\n5-Localizar Editar\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
-
                 switch (op)
                 {
                     case 0:
@@ -284,17 +301,48 @@ namespace OnTheFly_projeto
                         Opcoes();
                         break;
                     case 2:
+                        aero.CadastroAeronaves(lista, ativo, inativo);
                         break;
                     case 3:
+                        aero.ConsultarAeronave(lista, ativo, inativo);
                         break;
                     case 4:
+                        Console.WriteLine("\n*** Documentos da Aeronave ***");
+                        Console.WriteLine("1-Documento Aeronaves Ativas");
+                        Console.WriteLine("2-Documento Aeronaves Inativa");
+                        Console.WriteLine("3-Documento Aeronaves em Geral");
+                        Console.Write("\nInforme: ");
+                        int opc = int.Parse(Console.ReadLine());
+                        switch (opc)
+                        {
+
+                            case 1:
+                                aero.LerAtivos(ativo);
+                                Console.Clear();
+                                break;
+                            case 2:
+                                aero.LerInativos(inativo);
+                                Console.Clear();
+                                break;
+
+                            case 3:
+                                aero.LerDocumento(lista);
+                                Console.Clear();
+                                break;
+                            default:
+                                Console.WriteLine("\nOpção Inválida!!!");
+                                break;
+                        }
                         break;
                     case 5:
+                        aero.LocalizarEditar(lista, ativo, inativo);
                         break;
                     default:
+                        Console.WriteLine("\nOpcao Invalida...");
                         break;
                 }
-            } while (op > 0 && op < 5);
+
+            } while (op > 0 && op < 6);
         }
         public static void Cadastro()
         {
@@ -326,7 +374,9 @@ namespace OnTheFly_projeto
         public static void ClientesRestritos()
         {
             List<string> restritos = new List<string>();
-            Passageiro restrito = new Passageiro();
+            Passageiro restrito = new Passageiro(); 
+            restrito.LerRestritos(restritos);
+            
 
             int op;
             do
