@@ -6,16 +6,19 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-        static List<CompanhiaAerea> ListCiasAtivas = new List<CompanhiaAerea>();
-        static List<CompanhiaAerea> ListCiasInativas = new List<CompanhiaAerea>();
-        static List<CompanhiaAerea> ListTodasCias = new List<CompanhiaAerea>();
-        static List<CompanhiaAerea> ListCiasBloqueadas = new List<CompanhiaAerea>();
+
+        static CompanhiaAerea cia = new CompanhiaAerea();
+        static Venda venda = new Venda();
+        static List<string> bloqueadas = new List<string>();
+        static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
+
 
         static void Main(string[] args)
         {
             Menu();
         }
 
+        #region menus 
         public static void Menu()
         {
             Console.Clear();
@@ -47,7 +50,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -56,7 +59,7 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Menu();
+                        venda.CadastrarVenda();
                         break;
                     case 2:
                         Cliente();
@@ -87,7 +90,7 @@ namespace OnTheFly_projeto
             int op;
             do
             {
-                
+
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Restritos\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -102,13 +105,17 @@ namespace OnTheFly_projeto
                     case 2:
                         passageiro.CadastrarPassageiro(passageiros);
                         break;
-                    case 3: passageiro.ImprimirPassageiroEspecifico(passageiros);
+                    case 3:
+                        passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
-                    case 4: passageiro.EditarPassageiro(passageiros);
+                    case 4:
+                        passageiro.EditarPassageiro(passageiros);
                         break;
-                    case 5: passageiro.ImprimirTodosPassageiros(passageiros);
+                    case 5:
+                        passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
-                    case 6: ClientesRestritos();
+                    case 6:
+                        ClientesRestritos();
                         break;
                     default:
                         break;
@@ -118,13 +125,12 @@ namespace OnTheFly_projeto
         public static void CiaAerea()
         {
             int op;
-            CompanhiaAerea cia = new CompanhiaAerea();
+
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n6- Bloqueados\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Bloqueados\n6- Gravar arquivo de Cias Aéreas\n7- Ler arquivo de Cias Aéreas\n0- Sair");
                 op = int.Parse(Console.ReadLine());
-
 
                 switch (op)
                 {
@@ -135,23 +141,67 @@ namespace OnTheFly_projeto
                         Opcoes();
                         break;
                     case 2:
-                        cia.CadastrarCia();
-                        Menu();
+                        cia.CadastrarCia(TodasCias);
+                        Opcoes();
                         break;
                     case 3:
-                        BuscarCiasAereasLista();
+                        cia.LocalizarCiaAerea(TodasCias);
+                        Opcoes();
                         break;
                     case 4:
-                        EditarCiaAereaLista();
+                        cia.EditarCia(TodasCias);
+                        Opcoes();
                         break;
-                    case 5: //imprimir por registro
+                    case 5:
+                        CiasBloqueadas();
+                        Opcoes();
                         break;
-                    case 6: //bloqueados
+                    case 6:
+                        GerarArquivoTodasCias(TodasCias);
+                        break;
+                    case 7:LerArquivoCias(TodasCias);
                         break;
                     default:
                         break;
                 }
-            } while (op > 0 && op < 6);
+            } while (op > 0 && op < 7);
+        }
+        public static void CiaAereaBloqueada()
+        {
+            int op;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar Bloqueado\n3- Localizar Bloqueado\n4- Remover CNPJ da lista\n0- Sair");
+                op = int.Parse(Console.ReadLine());
+
+                switch (op)
+                {
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    case 1:
+                        CiaAerea();
+                        break;
+                    case 2:
+                        cia.CadastrarBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 3:
+                        cia.LocalizarBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 4:
+                        cia.RemoverBloqueadas(bloqueadas);
+                        Opcoes();
+                        break;
+                    case 5:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            } while (op > 0 && op < 5);
         }
         public static void Destinos()
         {
@@ -284,7 +334,7 @@ namespace OnTheFly_projeto
             int op;
             do
             {
-                
+
                 Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Cadastrar\n3- Localizar\n4-Remover\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -293,11 +343,14 @@ namespace OnTheFly_projeto
                     case 1:
                         Cadastro();
                         break;
-                    case 2: restrito.CadastrarRestrito(restritos);
+                    case 2:
+                        restrito.CadastrarRestrito(restritos);
                         break;
-                    case 3: restrito.LocalizarRestrito(restritos);
+                    case 3:
+                        restrito.LocalizarRestrito(restritos);
                         break;
-                    case 4: restrito.RetirarRestrito(restritos);
+                    case 4:
+                        restrito.RetirarRestrito(restritos);
                         break;
                     case 0:
                         Environment.Exit(0);
@@ -313,7 +366,7 @@ namespace OnTheFly_projeto
             int op;
 
             Console.Clear();
-            Console.WriteLine("Escolha a opção desejada: \n1- Voltar ao Menu Anterior\n2-Inserir Cia. Aérea\n3- Remover Cia. Aérea\n4- Visualizar lista\n0- Sair");
+            Console.WriteLine("Escolha a opção desejada: \n\n1- Voltar ao Menu Anterior\n2- Inserir Cia.Aérea\n3- Remover Cia. Aérea\n4- Buscar Cia. Aérea\n0- Sair");
             op = int.Parse(Console.ReadLine());
             switch (op)
             {
@@ -321,10 +374,13 @@ namespace OnTheFly_projeto
                     Cadastro();
                     break;
                 case 2:
+                    cia.CadastrarBloqueadas(bloqueadas);
                     break;
                 case 3:
+                    cia.RemoverBloqueadas(bloqueadas);
                     break;
                 case 4:
+                    cia.LocalizarBloqueadas(bloqueadas);
                     break;
                 case 0:
                     Environment.Exit(0);
@@ -333,30 +389,37 @@ namespace OnTheFly_projeto
                     break;
             }
         }
-        public static void GravarArquivoAtivas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
+        #endregion
+
+
+        #region manipulação de arquivo cias aéreas
+        public static void GerarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
         {
-            StreamWriter sw = new System.IO.StreamWriter("c:\\Listas\\CadastroCiasAtivas.txt");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
+            string msg = "";
+
+            foreach (CompanhiaAerea cia in TodasCias)
+            {
+                msg = cia.RazaoSocial + cia.Cnpj.ToString() + cia.DataAbertura.ToString("ddMMyy" + "hhmm") + cia.UltimoVoo.ToString("ddMMyy" + "hhmm") + cia.DataCadastro.ToString("ddMMyy" + "hhmm") + cia.Situacao;
+            }
+            try
+            {
+                StreamWriter sw = new StreamWriter("C:\\Listas_OnTheFly\\CiaAereas.dat", append: true);
+                sw.WriteLine(msg);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            Console.WriteLine("\nAperte Enter para continuar...");
+            Console.ReadKey();
         }
-        public static void GravarArquivoInativas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasInativas.txt");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public static void GravarArquivoBloqueadas(CompanhiaAerea ciaAerea) //MUDAR ARQUIVO PARA .DAT
-        {
-            StreamWriter sw = new StreamWriter("c:\\Listas\\CadastroCiasBloqueadas.txt");
-            sw.WriteLine(ciaAerea.ToString());
-            sw.Close();
-        }
-        public static void LerArquivoAtivas() //MUDAR ARQUIVO PARA .DAT
+        public static void ImprimirArquivoCias()
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasAtivas.txt");
+                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -364,209 +427,51 @@ namespace OnTheFly_projeto
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Console.WriteLine("Fim do arquivo.");
-
+                Console.WriteLine("\nFim da Leitura do Arquivo.");
+                Console.ReadLine();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erro: " + e.Message);
+                Console.WriteLine("Exception: " + e.Message);
             }
         }
-        public static void LerArquivoInativas() //MUDAR ARQUIVO PARA .DAT
+        public static void LerArquivoCias(List<CompanhiaAerea> TodasCias)
         {
             string line;
             try
             {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasInativas.txt");
+                StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
                 line = sr.ReadLine();
+                string dv = line.Substring(62, 12);
+                dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                
+                string dc = line.Substring(74, 12);
+                dc = dc.Substring(0, 2) + "/" + dc.Substring(2, 2) + "/" + dc.Substring(4, 2) + ' ' + dc.Substring(6, 2) + ':' + dc.Substring(8, 2);
+                
+                string da = line.Substring(50, 12);
+                da = da.Substring(0, 2) + "/" + da.Substring(2, 2) + "/" + da.Substring(4, 2) + ' ' + da.Substring(6, 2) + ':' + da.Substring(8, 2);
+                CompanhiaAerea c = new CompanhiaAerea();
                 while (line != null)
                 {
+                    c.RazaoSocial = line.Substring(0, 50);
+                    c.Cnpj = line.Substring(50, 14);
+                    c.DataAbertura = DateTime.Parse(da);
+                    c.UltimoVoo = DateTime.Parse(dv);
+                    c.DataCadastro = DateTime.Parse(dc);
+                    c.Situacao = char.Parse(line.Substring(75, 1));
+                    TodasCias.Add(c);
                     Console.WriteLine(line);
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Console.WriteLine("Fim do arquivo.");
-
+                Console.WriteLine("\nFim da Leitura do Arquivo.");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erro: " + e.Message);
+                Console.WriteLine("Exception: " + e.Message);
             }
         }
-        public static void LerArquivoBloqueadas() //MUDAR ARQUIVO PARA .DAT
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("c:\\Listas\\CadastroCiasBloqueadas.txt");
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("Fim do arquivo.");
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erro: " + e.Message);
-            }
-        }
-        public static void AddCiaAereaAtiva(CompanhiaAerea ciaAerea)
-        {
-            ListCiasAtivas.Add(ciaAerea);
-        }
-        public static void AddCiaAereaInativa(CompanhiaAerea ciaAerea)
-        {
-            ListCiasInativas.Add(ciaAerea);
-        }
-        public static void AddCiaListBloqueadas(CompanhiaAerea ciaAerea)
-        {
-            ListCiasBloqueadas.Add(ciaAerea);
-        }
-        public static void AddListTodasCias(CompanhiaAerea ciaAerea)
-        {
-            ListTodasCias.Add(ciaAerea);
-        }
-        public static void RemoveCiaAereaAtiva(CompanhiaAerea ciaAerea)
-        {
-            ListCiasAtivas.Remove(ciaAerea);
-        }
-        public static void RemoveCiaAereaInativa(CompanhiaAerea ciaAerea)
-        {
-            ListCiasInativas.Remove(ciaAerea);
-        }
-        public static void RemoveCiaListBloqueadas(CompanhiaAerea ciaAerea)
-        {
-            ListCiasBloqueadas.Remove(ciaAerea);
-        }
-        public static CompanhiaAerea BuscarCiasAereasLista()
-        {
-            int opcao;
-
-            foreach (var item in ListCiasAtivas)
-                if (item != null)
-                {
-                    return item;
-                }
-                else
-                {
-                    do
-                    {
-                        Console.WriteLine("Não existem Companhias Aéreas cadastradas!\n\nO que deseja fazer?\n1- Cadastrar CCompanhia\n2- Sair");
-                        opcao = int.Parse(Console.ReadLine());
-
-                        switch (opcao)
-                        {
-                            case 1:
-                                //cia.CadastrarCia();
-                                break;
-                            case 2:
-                                Environment.Exit(0);
-                                break;
-                        }
-                    } while (opcao < 1 || opcao > 2);
-                }
-            return null;
-        }
-        public static CompanhiaAerea EditarCiaAereaLista() //COMO EDITAR E DEVOLVER PARA A LISTA EDITADO?
-        {
-            int opcao, op = 0;
-            string cnpj = "";
-
-            CompanhiaAerea ciaBuscada = new CompanhiaAerea(cnpj);
-
-            Console.WriteLine("Digite o CNPJ da companhia aérea que deseja editar: ");
-            ciaBuscada.Cnpj = Console.ReadLine();
-
-            foreach (var item in ListCiasAtivas)
-                if (ciaBuscada != null && ciaBuscada == item)
-                {
-                    Console.WriteLine("Qual informação deseja alterar?\n1- Razão Social\n2- Data do último vôo\n3- Data de Abertura\n4- Situação");
-                    switch (op)
-                    {
-                        case 1:
-                            do
-                            {
-                                Console.WriteLine("Digite a Razão Social (até 50 dígitos) : ");
-                                ciaBuscada.RazaoSocial = Console.ReadLine();
-
-                            } while (ciaBuscada.RazaoSocial.Length > 50);
-                            Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                            Console.ReadKey();
-                            break;
-                        case 2:
-                            do
-                            {
-                                Console.WriteLine("Data do último vôo:");
-                                ciaBuscada.UltimoVoo = DateTime.Parse(Console.ReadLine());
-
-                            } while (ciaBuscada.UltimoVoo > DateTime.Now);
-                            Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                            Console.ReadKey();
-                            break;
-                        case 3:
-                            Console.WriteLine("Digite a data de abertura:");
-                            ciaBuscada.DataAbertura = DateTime.Parse(Console.ReadLine());
-                            System.TimeSpan tempoAbertura = DateTime.Now.Subtract(ciaBuscada.DataAbertura);
-                            if (tempoAbertura.TotalDays > 190)
-                            {
-                                Console.WriteLine("Alteração feita com sucesso!\n\nDigite enter para continuar...");
-                                Console.ReadKey();
-                            }
-                            else
-                            {
-                                Console.WriteLine("Data inválida!\n\nAperte enter para continuar...");
-                                Console.ReadKey();
-                            }
-                            break;
-                        case 4:
-                            do
-                            {
-                                Console.WriteLine("Digite a situação: \nA-Ativo\nI-Inativo");
-                                ciaBuscada.Situacao = char.Parse(Console.ReadLine());
-                                ciaBuscada.Situacao = Char.ToUpper(ciaBuscada.Situacao);
-
-                            } while (ciaBuscada.Situacao != 'A' && ciaBuscada.Situacao != 'I');
-
-                            if (ciaBuscada.Situacao == 'A')
-                            {
-                                RemoveCiaAereaInativa(ciaBuscada);
-                                AddCiaAereaAtiva(ciaBuscada);
-                                GravarArquivoAtivas(ciaBuscada);
-                            }
-                            else if (ciaBuscada.Situacao == 'I')
-                            {
-                                RemoveCiaAereaAtiva(ciaBuscada);
-                                AddCiaAereaInativa(ciaBuscada);
-                                GravarArquivoInativas(ciaBuscada);
-                            }
-                            break;
-                    }
-
-                }
-                else
-                {
-                    do
-                    {
-                        Console.WriteLine("Não existem Companhias Aéreas cadastradas!\n\nO que deseja fazer?\n1- Cadastrar CCompanhia\n2- Sair");
-                        opcao = int.Parse(Console.ReadLine());
-                        switch (opcao)
-                        {
-                            case 1:
-                                ciaBuscada.CadastrarCia();
-                                break;
-                            case 2:
-                                Environment.Exit(0);
-                                break;
-                        }
-                        return ciaBuscada;
-                    } while (opcao < 1 || opcao > 2);
-                }
-            return null;
-        }
+        #endregion
 
     }
 }
