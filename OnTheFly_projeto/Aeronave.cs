@@ -17,7 +17,6 @@ namespace OnTheFly_projeto
         public Aeronave() { }
         public Aeronave(String Inscrição, char Situacao, String Capacidade, String AssentosOcupados)
         {
-
             this.Inscricao = Inscrição;
             this.Capacidade = Capacidade;
             this.AssentosOcupados = AssentosOcupados;

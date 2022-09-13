@@ -17,7 +17,6 @@ namespace OnTheFly_projeto
         public int ValorTotal { get; set; } //Deverá armazenar apenas o CPF do Passageiro, mas ao ser informado, deverá trazer o nome e a data de nascimento do cliente, para uma verificação junto ao mesmo.
         public Passageiro passageiro { get; set; }
         public Voo Voo { get; set; }
-
         public Venda()
         {
 
@@ -33,10 +32,7 @@ namespace OnTheFly_projeto
         {
             Venda venda = new Venda();
             venda.Id = 1;
-
-
             venda.Id = GeraNumero(id);
-
             venda.DataVenda = DateTime.Now;
             Console.WriteLine("Digite o CPF do passageiro: ");
             passageiro.Cpf = Console.ReadLine();
