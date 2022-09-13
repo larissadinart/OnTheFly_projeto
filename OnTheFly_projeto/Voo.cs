@@ -8,10 +8,10 @@ namespace OnTheFly_projeto
 {
     internal class Voo
     {
-        public String Id { get; set; } // CHAVE!! Digito inicial V, seguidos de 4 dígitos numéricos
-        public string Destino { get; set; } //aeroporto de destino.
-        public String Aeronave { get; set; } //Id da Aeronave Cadastrada. Esse registro deve existir previamente
-        public DateTime DataVoo { get; set; } //data da partida
+        public String Id { get; set; }
+        public string Destino { get; set; } 
+        public String Aeronave { get; set; } 
+        public DateTime DataVoo { get; set; } 
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
         public Voo()

@@ -7,22 +7,18 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
-
         static CompanhiaAerea cia = new CompanhiaAerea();
         static Venda venda = new Venda();
         static List<string> bloqueadas = new List<string>();
         static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
 
-
         static void Main(string[] args)
         {
             Menu();
         }
-
         #region menus 
         public static void Menu()
         {
-
             Console.Clear();
             Console.WriteLine(">>>>> BEM VINDO AO AEROPORTO ON THE FLY! <<<<<\n\n");
             Console.WriteLine("Faça seu login para entrar: \n");
@@ -53,9 +49,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
-
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)

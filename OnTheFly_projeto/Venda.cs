@@ -30,10 +30,8 @@ namespace OnTheFly_projeto
         public void CadastrarVenda(Passageiro passageiro, Voo voo, List<Passageiro> passageiros, List<string> restritos)
         {
             Venda venda = new Venda();
-
             venda.Id = 1;
             venda.DataVenda = DateTime.Now;
-
             Console.WriteLine("Digite o CPF do passageiro: ");
             passageiro.Cpf = Console.ReadLine();
             foreach (var item in restritos)
