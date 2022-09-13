@@ -437,17 +437,23 @@ namespace OnTheFly_projeto
             {
                 StreamReader sr = new StreamReader("C:\\Listas_OnTheFly\\CiaAereas.dat");
                 line = sr.ReadLine();
-                string dv = line.Substring(8, 10);
-                dv = dv.Substring(0, 2) + '/' + dv.Substring(2, 2) + "//" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                string dv = line.Substring(62, 12);
+                dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                
+                string dc = line.Substring(74, 12);
+                dc = dc.Substring(0, 2) + "/" + dc.Substring(2, 2) + "/" + dc.Substring(4, 2) + ' ' + dc.Substring(6, 2) + ':' + dc.Substring(8, 2);
+                
+                string da = line.Substring(50, 12);
+                da = da.Substring(0, 2) + "/" + da.Substring(2, 2) + "/" + da.Substring(4, 2) + ' ' + da.Substring(6, 2) + ':' + da.Substring(8, 2);
                 CompanhiaAerea c = new CompanhiaAerea();
                 while (line != null)
                 {
-                    c.RazaoSocial = line.Substring(0, 49);
-                    c.Cnpj = line.Substring(49, 14);
-                    c.DataAbertura = DateTime.Parse(line.Substring(63, 10));
-                    c.DataCadastro = DateTime.Parse(line.Substring(73, 10));
+                    c.RazaoSocial = line.Substring(0, 50);
+                    c.Cnpj = line.Substring(50, 14);
+                    c.DataAbertura = DateTime.Parse(da);
                     c.UltimoVoo = DateTime.Parse(dv);
-                    c.Situacao = char.Parse(line.Substring(73));
+                    c.DataCadastro = DateTime.Parse(dc);
+                    c.Situacao = char.Parse(line.Substring(75, 1));
                     TodasCias.Add(c);
                     Console.WriteLine(line);
                     line = sr.ReadLine();
