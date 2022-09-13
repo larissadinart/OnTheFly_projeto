@@ -183,7 +183,7 @@ namespace OnTheFly_projeto
                 while (op < 0 || op > 5)
                 {
                     Console.WriteLine("Opção inválida, informe novamente: ");
-                    Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir por Registro\n0- Sair");
+                    Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cadastrar\n3- Localizar\n4- Editar\n5- Imprimir dados do Arquivo\n0- Sair");
                     op = int.Parse(Console.ReadLine());
                 }
                 List<string> destinos = new List<string>();
@@ -192,25 +192,24 @@ namespace OnTheFly_projeto
                 {
                     case 0:
                         voo.GeraArquivoVoo(listaVoos);
-                        Environment.Exit(0); // [OK]
+                        Environment.Exit(0); 
                         break;
                     case 1:
-                        Opcoes(); // [OK]
+                        Opcoes(); 
                         break;
-                    case 2: //cadastrar [OK]
+                    case 2: 
                         voo.CadastrarVoo(listaVoos);
                         break;
-                    case 3: //localizar [OK]
+                    case 3: 
                         voo.LocalizarVoo(listaVoos);
                         break;
-                    case 4: //editar [OK] - mudar na lista depois grava tudo.
+                    case 4: 
                         voo.EditarVoo(listaVoos);
                         break;
                     case 5:
                         voo.ImprimeArquivoVoo();
+                        Console.WriteLine("Aperte alguma tecla pra prosseguir!");
                         Console.ReadKey();                   
-                        //teste de imprimir arquivo texto gerado.
-                        //imprimir por registro
                         break;
                     default:
                         break;

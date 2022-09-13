@@ -18,12 +18,12 @@ namespace OnTheFly_projeto
         {
 
         }
-        public Voo(string destino, string aeronave, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo)
+        public Voo(string destino, DateTime dataVoo, DateTime dataCadastro, char situacaoVoo)
         {
             int valorId = RandomCadastroVoo();
             this.Id = "V" + valorId.ToString("D4");
             this.Destino = destino;
-            this.Aeronave = aeronave;
+            this.Aeronave = null;
             this.DataVoo = dataVoo;
             this.DataCadastro = dataCadastro;
             this.Situacao = situacaoVoo;
@@ -49,12 +49,13 @@ namespace OnTheFly_projeto
         {
             Aeronave aeronave = new Aeronave();
             Console.Clear();
+            Console.WriteLine("-----------------------------");
             Console.WriteLine("Bem vindo ao cadastro de voo.");
-            Console.WriteLine("_____________________________");
+            Console.WriteLine("-----------------------------");
             string destinoVoo = DestinoVoo();
-            string IdentificacaoAeronave = aeronave.Inscricao; //mudar pra valor de Aeronave | verificar se tem nave cadastrada
-            Console.WriteLine("Aeronave definida como: " + IdentificacaoAeronave);
-            Console.Write("Informe a data de Voo: ");
+            //string IdentificacaoAeronave = aeronave.Inscricao; //mudar pra valor de Aeronave | verificar se tem nave cadastrada
+            //Console.WriteLine("Aeronave definida como: " + IdentificacaoAeronave);
+            Console.WriteLine("Informe a data e hora d Voo: 'dd/MM/yyyy hh:mm' ");
             DateTime dataVoo = DateTime.Parse(Console.ReadLine());
             if (dataVoo <= DateTime.Now)
             {
@@ -63,22 +64,20 @@ namespace OnTheFly_projeto
             }
             DateTime dataCadastro = DateTime.Now;
             Console.WriteLine("Data de cadastro definifida como: " + dataCadastro);
-            Console.WriteLine("Informe a situacao do Voo: \n'A'- Ativo \n'C' - Cancelado");
+            Console.WriteLine("Informe a situacao do Voo: \n[A] Ativo \n[C] Cancelado");
             char situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
             while (situacaoVoo != 'A' && situacaoVoo != 'C')
             {
-                Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n'A'- Ativo \n'C' - Cancelado");
+                Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n[A] Ativo \n[C] Cancelado");
                 situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
             }
-            Voo novoVoo = new Voo(destinoVoo, IdentificacaoAeronave, dataVoo, dataCadastro, situacaoVoo);
+            Voo novoVoo = new Voo(destinoVoo, dataVoo, dataCadastro, situacaoVoo);
             listaDeVoo.Add(novoVoo);
             Console.Clear();
             Console.WriteLine(novoVoo.ImprimirVoo());
             GeraArquivoVoo(listaDeVoo);
-            Console.WriteLine("Aperte uma tecla para prosseguir: ");
-            Console.ReadKey();
-        } //falta linkar com aeronaves.
-        public void LocalizarVoo(List<Voo> listaDeVoo) //modificar utilizando arquivo
+        } 
+        public void LocalizarVoo(List<Voo> listaDeVoo) 
         {
             Console.Clear();
             Console.WriteLine("Opção: Localizar Voo");
@@ -101,7 +100,7 @@ namespace OnTheFly_projeto
         }
         public string ImprimirVoo()
         {
-            return "***Dados do Vôo***\nID: " + Id +
+            return "### Dados do Vôo ###\nID: " + Id +
                 "\nDestino: " + Destino +
                 "\nAeronave: " + Aeronave +
                 "\nDataVôo: " + DataVoo +
@@ -152,7 +151,7 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("");
                 Console.WriteLine(encontrouVoo.ImprimirVoo());
-                Console.WriteLine("Voce deseja editar esse Voo: \n1. SIM \n2. NÃO");
+                Console.WriteLine("Voce deseja editar esse Voo: \n[1] Sim \n[2] Não");
                 int op = int.Parse(Console.ReadLine());
                 switch (op)
                 {
@@ -170,12 +169,12 @@ namespace OnTheFly_projeto
                         break;
                 }
             }
-            Console.Clear();
-            Console.WriteLine("Os atributos que podem ser alterados são: Destino, Aeronave, Data do Voo e Situacao.");
-            Console.ReadKey();
         }
         public void EditandoInfVoo(Voo EdicaoVoo)
         {
+            Console.Clear();
+            Console.WriteLine("### Editando dados de voo ###");
+            Console.WriteLine("");
             string novoDestino = DestinoVoo();
             EdicaoVoo.Destino = novoDestino;
             Console.WriteLine("Insira a nova Aeronave: ");
@@ -203,7 +202,7 @@ namespace OnTheFly_projeto
             string msg = "";
             foreach (Voo voo in listadeVoo)
             {
-                msg = voo.Id + voo.Destino.ToString() + voo.Aeronave + voo.DataVoo.ToString("ddMMyy" + "hhmm") + voo.DataCadastro.ToString("ddMMyy" + "hhmm") + voo.Situacao;
+                msg = voo.Id + voo.Destino.ToString() + voo.Aeronave + voo.DataVoo.ToString("ddMMyyyy" + "hhmm") + voo.DataCadastro.ToString("ddMMyyyy" + "hhmm") + voo.Situacao;
             }
             try
             {
@@ -215,11 +214,12 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-            Console.WriteLine("\nAperte Enter");
+            Console.WriteLine("\nAperte uma tecla pra prosseguir!");
             Console.ReadKey();
-        }  //gera arquivo, mas falta linkar com Aeronaves.
+        }  
         public void ImprimeArquivoVoo()
         {
+            Console.WriteLine("### Arquivos de Voo.Dat ####");
             string line;
             try
             {
@@ -232,7 +232,6 @@ namespace OnTheFly_projeto
                 }
                 sr.Close();
                 Console.WriteLine("\nFim da Leitura do Arquivo");
-                Console.ReadLine();
             }
             catch (Exception e)
             {
@@ -246,17 +245,19 @@ namespace OnTheFly_projeto
             {
                 StreamReader sr = new StreamReader("C:\\Users\\Jhonatas\\source\\repos\\OnTheFly_projeto\\Arquivos\\Voo.dat");
                 line = sr.ReadLine();
-                string dv = line.Substring(8, 10);
-                dv = dv.Substring(0, 2) + '/' + dv.Substring(2, 2) + "//" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                string dv = line.Substring(8, 12);
+                dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
+                string dc = line.Substring(20, 12);
+                dc = dc.Substring(0, 2) + "/" + dc.Substring(2, 2) + "/" + dc.Substring(4, 2) + ' ' + dc.Substring(6, 2) + ':' + dc.Substring(8, 2);
                 Voo v = new Voo();
-                while (line != null) //COLOCAR O ANO INTERIO dd/MM/yyyy
+                while (line != null)
                 {
                     v.Id = line.Substring(0, 5);
                     v.Destino = line.Substring(5, 3);
                     //v.Aeronave = line.Substring(0, 0);
                     v.DataVoo = DateTime.Parse(dv); 
-                    v.DataCadastro = DateTime.Parse(line.Substring(18, 10));
-                    v.Situacao = char.Parse(line.Substring(29));
+                    v.DataCadastro = DateTime.Parse(dc);
+                    v.Situacao = char.Parse(line.Substring(32, 1));
                     listadeVoo.Add(v);
                     Console.WriteLine(line);
                     line = sr.ReadLine();
