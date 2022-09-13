@@ -28,13 +28,12 @@ namespace OnTheFly_projeto
         {
             ItemVenda itemVenda = new ItemVenda();
 
-            itemVenda.Id = GeraNumero();
+            itemVenda.Id = GeraNumero(Id);
             itemVenda.IdPassagem = passagem.IdVoo;
             itemVenda.ValorUnitario = passagem.Valor;
         }
-        public int GeraNumero()
+        public int GeraNumero(int nro)
         {
-            int nro = 0;
 
             int n = nro;
             if (n > 99999)

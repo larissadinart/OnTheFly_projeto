@@ -7,6 +7,10 @@ namespace OnTheFly_projeto
 {
     internal class Program
     {
+        static Voo voo = new Voo();
+        static Passageiro passageiro = new Passageiro();
+        static List<string> restritos = new List<string>();
+        static List<Passageiro> passageiros = new List<Passageiro>();
         static CompanhiaAerea cia = new CompanhiaAerea();
         static Venda venda = new Venda();
         static List<string> bloqueadas = new List<string>();
@@ -61,7 +65,7 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        //venda.CadastrarVenda();
+                        venda.CadastrarVenda(passageiro, voo, passageiros, restritos, listaVoos);
                         break;
                     case 2:
                         Cliente();
@@ -85,8 +89,8 @@ namespace OnTheFly_projeto
         }
         public static void Cliente()
         {
-            List<Passageiro> passageiros = new List<Passageiro>();
-            Passageiro passageiro = new Passageiro();
+            
+            
             passageiro.LerPassageiros(passageiros);
 
             int op;
@@ -240,7 +244,7 @@ namespace OnTheFly_projeto
         public static void Voos()
         {
             int op;      
-            Voo voo = new Voo();
+           
             voo.LerArquivoVoo(listaVoos);
             do
             {
@@ -373,8 +377,9 @@ namespace OnTheFly_projeto
         }
         public static void ClientesRestritos()
         {
-            List<string> restritos = new List<string>();
+            
             Passageiro restrito = new Passageiro(); 
+
             restrito.LerRestritos(restritos);
             
 

@@ -34,8 +34,9 @@ namespace OnTheFly_projeto
         {
             Venda venda = new Venda();
             venda.Id = 1;
+            Console.WriteLine(venda.Id);
 
-            venda.Id = GeraNumero();
+            venda.Id = GeraNumero(Id);
             venda.DataVenda = DateTime.Now;
 
             venda.DataVenda = DateTime.Now;
@@ -79,9 +80,8 @@ namespace OnTheFly_projeto
                 }
             }
         }
-        public int GeraNumero()
+        public int GeraNumero(int nro)
         {
-            int nro = 0;
             int n = nro;
             if (n > 99999)
             {

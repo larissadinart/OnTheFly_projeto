@@ -319,7 +319,7 @@ namespace OnTheFly_projeto
             string line;
             try
             {
-                StreamReader sr = new StreamReader("C:\\Arquivo\\Passageiro.txt");
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Passageiro.dat");
                 line = sr.ReadLine();
 
                 while (line != null)
