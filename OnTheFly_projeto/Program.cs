@@ -278,6 +278,7 @@ namespace OnTheFly_projeto
         {
             List<string> restritos = new List<string>();
             Passageiro restrito = new Passageiro(); 
+            restrito.LerRestritos(restritos);
             
 
             int op;

@@ -277,6 +277,7 @@ namespace OnTheFly_projeto
             {
                 Console.WriteLine("Cadastro efetuado com sucesso!");
                 restritos.Add(cpf);
+                GravarRestrito(restritos);
             }
         }
 
@@ -308,6 +309,7 @@ namespace OnTheFly_projeto
             {
                 restritos.Remove(encontrouRestrito);
                 Console.WriteLine("O CPF foi removido da lista de restritros");
+                GravarRestrito(restritos);
             }
 
         }
@@ -319,22 +321,25 @@ namespace OnTheFly_projeto
             {
                 StreamReader sr = new StreamReader("C:\\Arquivo\\Passageiro.txt");
                 line = sr.ReadLine();
-                string dataNasc = line.Substring(61, 12);
-                dataNasc = dataNasc.Substring(0, 2) + '/' +dataNasc.Substring(2, 2) + "/" + dataNasc.Substring(4, 4) + ' ' + dataNasc.Substring(8, 2) + ':' + dataNasc.Substring(10, 2);
-                string ultimaC = line.Substring(74, 12);
-                ultimaC = ultimaC.Substring(0, 2) + '/' + ultimaC.Substring(2, 2) + "/" + ultimaC.Substring(4, 4) + ' ' + ultimaC.Substring(8, 2) + ':' + ultimaC.Substring(10, 2);
-                string dataC = line.Substring(86, 12);
-                dataC = dataC.Substring(0, 2) + '/' + dataC.Substring(2, 2) + "/" + dataC.Substring(4, 4) + ' ' + dataC.Substring(8, 2) + ':' + dataC.Substring(10, 2);
-                Passageiro passageiro = new Passageiro();
+
                 while (line != null)
                 {
-                    passageiro.Nome = line.Substring(0, 50);
+
+                    string dataNasc = line.Substring(61, 12);
+                    dataNasc = dataNasc.Substring(0, 2) + '/' + dataNasc.Substring(2, 2) + "/" + dataNasc.Substring(4, 4) + ' ' + dataNasc.Substring(8, 2) + ':' + dataNasc.Substring(10, 2);
+                    string ultimaC = line.Substring(74, 12);
+                    ultimaC = ultimaC.Substring(0, 2) + '/' + ultimaC.Substring(2, 2) + "/" + ultimaC.Substring(4, 4) + ' ' + ultimaC.Substring(8, 2) + ':' + ultimaC.Substring(10, 2);
+                    string dataC = line.Substring(86, 12);
+                    dataC = dataC.Substring(0, 2) + '/' + dataC.Substring(2, 2) + "/" + dataC.Substring(4, 4) + ' ' + dataC.Substring(8, 2) + ':' + dataC.Substring(10, 2);
+                    Passageiro passageiro = new Passageiro();
+                    passageiro.Nome = line.Substring(0, 50).Replace(" ", "");
                     passageiro.Cpf = line.Substring(50, 11);
                     passageiro.DataNascimento = DateTime.Parse(dataNasc);
                     passageiro.Sexo = char.Parse(line.Substring(73, 1));
                     passageiro.UltimaCompra = DateTime.Parse(ultimaC);
                     passageiro.DataCadastro = DateTime.Parse(dataC);
                     passageiro.Situacao = char.Parse(line.Substring(98, 1));
+                    passageiros.Add(passageiro);
                     Console.WriteLine(line);
                     line = sr.ReadLine();
                 }
@@ -356,16 +361,64 @@ namespace OnTheFly_projeto
                 foreach (Passageiro p in passageiros)
                 {
 
-                    passageiro = ((p.Nome + p.Cpf + p.DataNascimento.ToString("ddMMyyyy" + "hhmm") + p.Sexo + p.UltimaCompra.ToString("ddMMyy" + "hhmm") + p.DataCadastro.ToString("ddMMyy" + "hhmm") + p.Situacao).ToString());
+                    passageiro = ((p.Nome.PadRight(50, ' ') + p.Cpf + p.DataNascimento.ToString("ddMMyyyy" + "hhmm") + p.Sexo + p.UltimaCompra.ToString("ddMMyyyy" + "hhmm") + p.DataCadastro.ToString("ddMMyyyy" + "hhmm") + p.Situacao).ToString());
                     streamWriter.WriteLineAsync(passageiro);
-                    streamWriter.Close();
+
                 }
+                streamWriter.Close();
             }
+
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
 
+        }
+
+        public void GravarRestrito(List<string> restritos)
+        {
+            string restrito;
+            try
+            {
+                StreamWriter streamWriter = new StreamWriter("C:\\Arquivo\\Restrito.txt");
+                foreach (string r in restritos)
+                {
+
+                    restrito = r;
+                    streamWriter.WriteLineAsync(restrito);
+
+                }
+                streamWriter.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+
+        public void LerRestritos(List<string> restritos)
+        {
+            string line;
+            try
+            {
+                StreamReader sr = new StreamReader("C:\\Arquivo\\Restrito.txt");
+                line = sr.ReadLine();
+
+                while (line != null)
+                {
+                    restritos.Add(line);
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+                }
+
+                sr.Close();
+                Console.WriteLine("\nFim da Leitura do Arquivo");
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
         }
 
 
