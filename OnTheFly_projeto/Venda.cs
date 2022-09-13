@@ -27,7 +27,7 @@ namespace OnTheFly_projeto
             this.Passageiro = passageiro;
             this.ValorTotal = total;
         }
-        public void CadastrarVenda(Passageiro passageiro, List<Passageiro> passageiros, List<string> restritos)
+        public void CadastrarVenda(Passageiro passageiro, Voo voo, List<Passageiro> passageiros, List<string> restritos)
         {
             Venda venda = new Venda();
 
@@ -60,7 +60,7 @@ namespace OnTheFly_projeto
                         {
                             case 1:
                                 break;
-                            case 2:CadastrarVenda(passageiro,passageiros,restritos);
+                            case 2:CadastrarVenda(passageiro,voo,passageiros,restritos);
                                 break;
                         }
                     }while(op < 0 || op > 2);
@@ -71,11 +71,13 @@ namespace OnTheFly_projeto
                     Console.ReadKey();
                 }
             }
-
-
-
-
         }
+
+        internal void CadastrarVenda()
+        {
+            throw new NotImplementedException();
+        }
+
         public void GerarNumeroSequencial() //gera numero sequencial iniciado em 1
         {
     

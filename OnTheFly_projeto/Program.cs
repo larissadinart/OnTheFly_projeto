@@ -8,6 +8,7 @@ namespace OnTheFly_projeto
     {
 
         static CompanhiaAerea cia = new CompanhiaAerea();
+        static Venda venda = new Venda();
         static List<string> bloqueadas = new List<string>();
         static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
 
@@ -49,7 +50,7 @@ namespace OnTheFly_projeto
             do
             {
                 Console.Clear();
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Voltar ao Menu anterior\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -58,7 +59,7 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Menu();
+                        venda.CadastrarVenda();
                         break;
                     case 2:
                         Cliente();
@@ -386,6 +387,7 @@ namespace OnTheFly_projeto
             }
         }
         #endregion
+
 
         #region manipulação de arquivo cias aéreas
         public static void GerarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
