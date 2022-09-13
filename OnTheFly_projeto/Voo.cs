@@ -10,7 +10,7 @@ namespace OnTheFly_projeto
     {
         public String Id { get; set; }
         public string Destino { get; set; } 
-        public String Aeronave { get; set; } 
+        public Aeronave Aeronave { get; set; } 
         public DateTime DataVoo { get; set; } 
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
@@ -53,8 +53,9 @@ namespace OnTheFly_projeto
             Console.WriteLine("Bem vindo ao cadastro de voo.");
             Console.WriteLine("-----------------------------");
             string destinoVoo = DestinoVoo();
-            //string IdentificacaoAeronave = aeronave.Inscricao; //mudar pra valor de Aeronave | verificar se tem nave cadastrada
-            //Console.WriteLine("Aeronave definida como: " + IdentificacaoAeronave);
+            Console.WriteLine("Aeronaves disponíveis: ");
+            //verificar se existe aeronave. Se sim, disponibilizar pra vôo, se não, voltar pra cadastro de Voo.
+            Console.WriteLine("Aeronave definida como: " + aeronave.Inscricao);
             Console.WriteLine("Informe a data e hora d Voo: 'dd/MM/yyyy hh:mm' ");
             DateTime dataVoo = DateTime.Parse(Console.ReadLine());
             if (dataVoo <= DateTime.Now)
@@ -157,7 +158,7 @@ namespace OnTheFly_projeto
                 {
                     case 1:
                         Console.WriteLine("As opções mutáveis são: Destino, Aeronave, DataVoo, DataCadastro, Situação do Voo");
-                        encontrouVoo.EditandoInfVoo(encontrouVoo);
+                        encontrouVoo.EditandoInfVoo(encontrouVoo, listaVoo);
                         //listaVoo.Add(encontrouVoo);
                         break;
                     case 2:
@@ -170,15 +171,15 @@ namespace OnTheFly_projeto
                 }
             }
         }
-        public void EditandoInfVoo(Voo EdicaoVoo)
+        public void EditandoInfVoo(Voo EdicaoVoo, List<Voo> listaVoo)
         {
             Console.Clear();
             Console.WriteLine("### Editando dados de voo ###");
             Console.WriteLine("");
             string novoDestino = DestinoVoo();
             EdicaoVoo.Destino = novoDestino;
-            Console.WriteLine("Insira a nova Aeronave: ");
-            EdicaoVoo.Aeronave = Console.ReadLine();
+            //Console.WriteLine("Insira a nova Aeronave: ");
+            //EdicaoVoo.Aeronave = Console.ReadLine();
             Console.WriteLine("Insira a nova data de Voo: ");
             EdicaoVoo.DataVoo = DateTime.Parse(Console.ReadLine());
             if (EdicaoVoo.DataVoo <= DateTime.Now)
@@ -194,6 +195,7 @@ namespace OnTheFly_projeto
                 EdicaoVoo.Situacao = char.Parse(Console.ReadLine().ToUpper());
             }
             Console.WriteLine("Arquivo editado com sucesso!!");
+            GeraArquivoVoo(listaVoo);
             Console.WriteLine("Pressione alguma tecla para prosseguir");
             Console.ReadKey();
         }
