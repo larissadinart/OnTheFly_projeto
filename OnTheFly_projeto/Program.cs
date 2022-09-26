@@ -9,53 +9,22 @@ namespace OnTheFly_projeto
     {
         static Voo voo = new Voo();
         static Passageiro passageiro = new Passageiro();
-        static List<string> restritos = new List<string>();
-        static List<Passageiro> passageiros = new List<Passageiro>();
         static CompanhiaAerea cia = new CompanhiaAerea();
         static Venda venda = new Venda();
-        static List<string> bloqueadas = new List<string>();
-        static List<CompanhiaAerea> TodasCias = new List<CompanhiaAerea>();
-        static List<Voo> listaVoos = new List<Voo>();
-        //___________________Listas Para Aeronaves__________________________\\
-        static List<Aeronave> lista = new List<Aeronave>();
-        static List<Aeronave> ativo = new List<Aeronave>();
-        static List<Aeronave> inativo = new List<Aeronave>();
+ 
         static void Main(string[] args)
         {
             Menu();
         }
         #region menus 
+
         public static void Menu()
-        {
-            Console.Clear();
-            Console.WriteLine(">>>>> BEM VINDO AO AEROPORTO ON THE FLY! <<<<<\n\n");
-            Console.WriteLine("Faça seu login para entrar: \n");
-            string usuario, usu = "admin";
-            string senha, sen = "admin";
-
-                Console.WriteLine("Digite o usuário: ");
-                usuario = Console.ReadLine();
-                Console.WriteLine("Digite a senha: ");
-                senha = Console.ReadLine();
-
-            if (usuario == usu && senha == sen)
-            {
-                Opcoes();
-            }
-            else
-            {
-                Console.WriteLine("Usuário ou senha inválidos!\n\n");
-                Console.WriteLine("Aperte enter para continuar....");
-                Console.ReadKey();
-                Menu();
-            }
-        }
-        public static void Opcoes()
         {
             int op;
             do
             {
                 Console.Clear();
+                Console.WriteLine(">>>>> BEM VINDO AO AEROPORTO ON THE FLY! <<<<<\n\n");
                 Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
@@ -65,7 +34,6 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        venda.CadastrarVenda(passageiro, voo, passageiros, restritos, listaVoos);
                         break;
                     case 2:
                         Cliente();
@@ -89,10 +57,6 @@ namespace OnTheFly_projeto
         }
         public static void Cliente()
         {
-            
-            
-            passageiro.LerPassageiros(passageiros);
-
             int op;
             do
             {
@@ -106,22 +70,17 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Opcoes();
+                        Menu();
                         break;
                     case 2:
-                        passageiro.CadastrarPassageiro(passageiros);
                         break;
                     case 3:
-                        passageiro.ImprimirPassageiroEspecifico(passageiros);
                         break;
                     case 4:
-                        passageiro.EditarPassageiro(passageiros);
                         break;
                     case 5:
-                        passageiro.ImprimirTodosPassageiros(passageiros);
                         break;
                     case 6:
-                        ClientesRestritos();
                         break;
                     default:
                         break;
@@ -144,28 +103,24 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Opcoes();
+                        Menu();
                         break;
                     case 2:
-                        cia.CadastrarCia(TodasCias);
-                        Opcoes();
+                        Menu();
                         break;
                     case 3:
-                        cia.LocalizarCiaAerea(TodasCias);
-                        Opcoes();
+                        Menu();
                         break;
                     case 4:
-                        cia.EditarCia(TodasCias);
-                        Opcoes();
+                        Menu();
                         break;
                     case 5:
                         CiasBloqueadas();
-                        Opcoes();
+                        Menu();
                         break;
                     case 6:
-                        GerarArquivoTodasCias(TodasCias);
                         break;
-                    case 7:LerArquivoCias(TodasCias);
+                    case 7:
                         break;
                     default:
                         break;
@@ -190,16 +145,13 @@ namespace OnTheFly_projeto
                         CiaAerea();
                         break;
                     case 2:
-                        cia.CadastrarBloqueadas(bloqueadas);
-                        Opcoes();
+                        Menu();
                         break;
                     case 3:
-                        cia.LocalizarBloqueadas(bloqueadas);
-                        Opcoes();
+                        Menu();
                         break;
                     case 4:
-                        cia.RemoverBloqueadas(bloqueadas);
-                        Opcoes();
+                        Menu();
                         break;
                     case 5:
                         Environment.Exit(0);
@@ -225,7 +177,7 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Opcoes();
+                        Menu();
                         break;
                     case 2:
                         break;
@@ -244,8 +196,6 @@ namespace OnTheFly_projeto
         public static void Voos()
         {
             int op;      
-           
-            voo.LerArquivoVoo(listaVoos);
             do
             {
                 Console.Clear();
@@ -262,20 +212,20 @@ namespace OnTheFly_projeto
                 switch (op)
                 {
                     case 0:
-                        voo.GeraArquivoVoo(listaVoos);
+
                         Environment.Exit(0); 
                         break;
                     case 1:
-                        Opcoes(); 
+                        Menu(); 
                         break;
                     case 2: 
-                        voo.CadastrarVoo(listaVoos);
+
                         break;
                     case 3: 
-                        voo.LocalizarVoo(listaVoos);
+
                         break;
                     case 4: 
-                        voo.EditarVoo(listaVoos);
+
                         break;
                     case 5:
                         voo.ImprimeArquivoVoo();
@@ -302,13 +252,13 @@ namespace OnTheFly_projeto
                         Environment.Exit(0);
                         break;
                     case 1:
-                        Opcoes();
+                        Menu();
                         break;
                     case 2:
-                        aero.CadastroAeronaves(lista, ativo, inativo);
+
                         break;
                     case 3:
-                        aero.ConsultarAeronave(lista, ativo, inativo);
+
                         break;
                     case 4:
                         Console.WriteLine("\n*** Documentos da Aeronave ***");
@@ -321,16 +271,16 @@ namespace OnTheFly_projeto
                         {
 
                             case 1:
-                                aero.LerAtivos(ativo);
+
                                 Console.Clear();
                                 break;
                             case 2:
-                                aero.LerInativos(inativo);
+
                                 Console.Clear();
                                 break;
 
                             case 3:
-                                aero.LerDocumento(lista);
+
                                 Console.Clear();
                                 break;
                             default:
@@ -339,7 +289,7 @@ namespace OnTheFly_projeto
                         }
                         break;
                     case 5:
-                        aero.LocalizarEditar(lista, ativo, inativo);
+
                         break;
                     default:
                         Console.WriteLine("\nOpcao Invalida...");
@@ -380,7 +330,7 @@ namespace OnTheFly_projeto
             
             Passageiro restrito = new Passageiro(); 
 
-            restrito.LerRestritos(restritos);
+
             
 
             int op;
@@ -396,13 +346,13 @@ namespace OnTheFly_projeto
                         Cadastro();
                         break;
                     case 2:
-                        restrito.CadastrarRestrito(restritos);
+
                         break;
                     case 3:
-                        restrito.LocalizarRestrito(restritos);
+
                         break;
                     case 4:
-                        restrito.RetirarRestrito(restritos);
+
                         break;
                     case 0:
                         Environment.Exit(0);
@@ -426,13 +376,13 @@ namespace OnTheFly_projeto
                     Cadastro();
                     break;
                 case 2:
-                    cia.CadastrarBloqueadas(bloqueadas);
+
                     break;
                 case 3:
-                    cia.RemoverBloqueadas(bloqueadas);
+
                     break;
                 case 4:
-                    cia.LocalizarBloqueadas(bloqueadas);
+
                     break;
                 case 0:
                     Environment.Exit(0);
