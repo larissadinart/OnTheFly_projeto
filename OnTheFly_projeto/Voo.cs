@@ -45,48 +45,48 @@ namespace OnTheFly_projeto
             }
             return aux;
         }
-        public void CadastrarVoo(List<Voo> listaDeVoo)
-        {
-            Aeronave aeronave = new Aeronave();
-            bool existeAeronave = aeronave.ExisteAeronave();
-            if (!existeAeronave)
-            {
-                Console.Clear();
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine("Bem vindo ao cadastro de voo.");
-                Console.WriteLine("-----------------------------");
-                string destinoVoo = DestinoVoo();
-                Console.WriteLine("Aeronave definida como: " + aeronave.Inscricao);
-                Console.WriteLine("Informe a data e hora d Voo: (dd/MM/yyyy hh:mm) ");
-                DateTime dataVoo = DateTime.Parse(Console.ReadLine());
-                if (dataVoo <= DateTime.Now)
-                {
-                    Console.WriteLine("Essa data é inválida, informe novamente: ");
-                    dataVoo = DateTime.Parse(Console.ReadLine());
-                }
-                DateTime dataCadastro = DateTime.Now;
-                Console.WriteLine("Data de cadastro definifida como: " + dataCadastro);
-                Console.WriteLine("Informe a situacao do Voo: \n[A] Ativo \n[C] Cancelado");
-                char situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
-                while (situacaoVoo != 'A' && situacaoVoo != 'C')
-                {
-                    Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n[A] Ativo \n[C] Cancelado");
-                    situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
-                }
-                Voo novoVoo = new Voo(destinoVoo, dataVoo, dataCadastro, situacaoVoo);
-                listaDeVoo.Add(novoVoo);
-                Console.Clear();
-                Console.WriteLine(novoVoo.ImprimirVoo());
-                GeraArquivoVoo(listaDeVoo);
-            }
-            else if (existeAeronave)
-            {
-                Console.Clear();
-                Console.WriteLine("Desculpa, impossível cadastrar voo, pois nao temos nenhuma aeronave Ativa Cadastrada");
-                Console.WriteLine("Pressione uma tecla para prosseguir");
-                Console.ReadKey();
-            }
-        }
+        //public void CadastrarVoo(List<Voo> listaDeVoo)
+        //{
+        //    Aeronave aeronave = new Aeronave();
+        //    bool existeAeronave = aeronave.ExisteAeronave();
+        //    if (!existeAeronave)
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("-----------------------------");
+        //        Console.WriteLine("Bem vindo ao cadastro de voo.");
+        //        Console.WriteLine("-----------------------------");
+        //        string destinoVoo = DestinoVoo();
+        //        Console.WriteLine("Aeronave definida como: " + aeronave.Inscricao);
+        //        Console.WriteLine("Informe a data e hora d Voo: (dd/MM/yyyy hh:mm) ");
+        //        DateTime dataVoo = DateTime.Parse(Console.ReadLine());
+        //        if (dataVoo <= DateTime.Now)
+        //        {
+        //            Console.WriteLine("Essa data é inválida, informe novamente: ");
+        //            dataVoo = DateTime.Parse(Console.ReadLine());
+        //        }
+        //        DateTime dataCadastro = DateTime.Now;
+        //        Console.WriteLine("Data de cadastro definifida como: " + dataCadastro);
+        //        Console.WriteLine("Informe a situacao do Voo: \n[A] Ativo \n[C] Cancelado");
+        //        char situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
+        //        while (situacaoVoo != 'A' && situacaoVoo != 'C')
+        //        {
+        //            Console.WriteLine("O valor informado é inválido, por favor informe novamente!\n[A] Ativo \n[C] Cancelado");
+        //            situacaoVoo = char.Parse(Console.ReadLine().ToUpper());
+        //        }
+        //        Voo novoVoo = new Voo(destinoVoo, dataVoo, dataCadastro, situacaoVoo);
+        //        listaDeVoo.Add(novoVoo);
+        //        Console.Clear();
+        //        Console.WriteLine(novoVoo.ImprimirVoo());
+        //        GeraArquivoVoo(listaDeVoo);
+        //    }
+        //    else if (existeAeronave)
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("Desculpa, impossível cadastrar voo, pois nao temos nenhuma aeronave Ativa Cadastrada");
+        //        Console.WriteLine("Pressione uma tecla para prosseguir");
+        //        Console.ReadKey();
+        //    }
+        //}
         public void LocalizarVoo(List<Voo> listaDeVoo)
         {
             Console.Clear();

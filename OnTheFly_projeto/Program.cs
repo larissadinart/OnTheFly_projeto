@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data.SqlClient;
 
 namespace OnTheFly_projeto
 {
     internal class Program
     {
         static Voo voo = new Voo();
-        static Passageiro passageiro = new Passageiro();
+        static Passageiro p = new Passageiro();
         static CompanhiaAerea cia = new CompanhiaAerea();
         static Venda venda = new Venda();
- 
+
         static void Main(string[] args)
         {
             Menu();
@@ -24,7 +24,7 @@ namespace OnTheFly_projeto
             {
                 Console.Clear();
                 Console.WriteLine(">>>>> BEM VINDO AO AEROPORTO ON THE FLY! <<<<<\n\n");
-                Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Cliente\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
+                Console.WriteLine("Escolha a opção desejada:\n\n1- Vender Passagem\n2- Passageiro\n3- Cia.Aérea\n4- Destinos\n5- Vôos\n6- Aviões\n0- Sair");
                 op = int.Parse(Console.ReadLine());
 
                 switch (op)
@@ -35,26 +35,26 @@ namespace OnTheFly_projeto
                     case 1:
                         break;
                     case 2:
-                        Cliente();
+                        Passageiro();
                         break;
                     case 3:
-                        CiaAerea();
+
                         break;
                     case 4:
-                        Destinos();
+
                         break;
                     case 5:
-                        Voos();
+
                         break;
                     case 6:
-                        Avioes();
+
                         break;
                     default:
                         break;
                 }
             } while (op < 0 || op > 6);
         }
-        public static void Cliente()
+        public static void Passageiro()
         {
             int op;
             do
@@ -72,8 +72,14 @@ namespace OnTheFly_projeto
                         Menu();
                         break;
                     case 2:
+                        p = p.CadastrarPassageiro();
+                        InserirPassageiro(p);
+                        Console.WriteLine("Passageiro cadastrado com sucesso!Aperte enter para voltar ao menu.");
+                        Console.ReadKey();
+                        Menu();
                         break;
                     case 3:
+                        LocalizarPassageiro();
                         break;
                     case 4:
                         break;
@@ -194,7 +200,7 @@ namespace OnTheFly_projeto
         }
         public static void Voos()
         {
-            int op;      
+            int op;
             do
             {
                 Console.Clear();
@@ -207,29 +213,29 @@ namespace OnTheFly_projeto
                     op = int.Parse(Console.ReadLine());
                 }
                 List<string> destinos = new List<string>();
-      
+
                 switch (op)
                 {
                     case 0:
 
-                        Environment.Exit(0); 
+                        Environment.Exit(0);
                         break;
                     case 1:
-                        Menu(); 
+                        Menu();
                         break;
-                    case 2: 
+                    case 2:
 
                         break;
-                    case 3: 
+                    case 3:
 
                         break;
-                    case 4: 
+                    case 4:
 
                         break;
                     case 5:
                         voo.ImprimeArquivoVoo();
                         Console.WriteLine("Aperte alguma tecla pra prosseguir!");
-                        Console.ReadKey();                   
+                        Console.ReadKey();
                         break;
                     default:
                         break;
@@ -326,11 +332,11 @@ namespace OnTheFly_projeto
         }
         public static void ClientesRestritos()
         {
-            
-            Passageiro restrito = new Passageiro(); 
+
+            Passageiro restrito = new Passageiro();
 
 
-            
+
 
             int op;
             do
@@ -393,86 +399,70 @@ namespace OnTheFly_projeto
         #endregion
 
 
-        #region manipulação de arquivo cias aéreas
-        public static void GerarArquivoTodasCias(List<CompanhiaAerea> TodasCias)
+        public static void InserirPassageiro(Passageiro passageiro)
         {
-            string msg = "";
+            Banco conn = new Banco();
+            SqlConnection conexaosql = new SqlConnection(conn.Caminho());
+            conexaosql.Open();
 
-            foreach (CompanhiaAerea cia in TodasCias)
-            {
-                msg = cia.RazaoSocial + cia.Cnpj.ToString() + cia.DataAbertura.ToString("ddMMyy" + "hhmm") + cia.UltimoVoo.ToString("ddMMyy" + "hhmm") + cia.DataCadastro.ToString("ddMMyy" + "hhmm") + cia.Situacao;
-            }
-            try
-            {
-                StreamWriter sw = new StreamWriter("C:\\Listas_OnTheFly\\CiaAereas.dat", append: true);
-                sw.WriteLine(msg);
-                sw.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            Console.WriteLine("\nAperte Enter para continuar...");
-            Console.ReadKey();
+            string sql = $"insert into Passageiro(nome, cpf, data_nasc, sexo, data_ultimacompra, data_cadastro,situação) values ('{p.Cpf}' , " +
+                $"'{p.Nome}', '{p.DataNascimento}', '{p.Sexo}', '{DateTime.Now}', '{DateTime.Now}', '{p.Situacao}');";
+            SqlCommand cmd = new SqlCommand(sql, conexaosql);
+            cmd.ExecuteNonQuery();
+            conexaosql.Close();
         }
-        public static void ImprimirArquivoCias()
+        public static Passageiro LocalizarPassageiro()
         {
-            string line;
+            string sql = $"select * from passageiro Where cpf = '{p.Cpf}';";
+            Console.Clear();
+            Console.WriteLine("Digite o cpf do passageiro buscado: ");
+            p.Cpf = Console.ReadLine();
             try
             {
-                StreamReader sr = new StreamReader("C:\\Arquivo\\CiasAereas.dat");
-                line = sr.ReadLine();
-                while (line != null)
+                Banco conn = new Banco();
+                SqlConnection conexaosql = new SqlConnection(conn.Caminho());
+                conexaosql.Open();
+                SqlCommand cmd = new SqlCommand(sql, conexaosql);
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("\nFim da Leitura do Arquivo.");
-                Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-        }
-        public static void LerArquivoCias(List<CompanhiaAerea> TodasCias)
-        {
-            string line;
-            try
-            {
-                StreamReader sr = new StreamReader("C:\\Arquivo\\CiasAereas.txt");
-                line = sr.ReadLine();
-                string dv = line.Substring(62, 12);
-                dv = dv.Substring(0, 2) + "/" + dv.Substring(2, 2) + "/" + dv.Substring(4, 2) + ' ' + dv.Substring(6, 2) + ':' + dv.Substring(8, 2);
-                
-                string dc = line.Substring(74, 12);
-                dc = dc.Substring(0, 2) + "/" + dc.Substring(2, 2) + "/" + dc.Substring(4, 2) + ' ' + dc.Substring(6, 2) + ':' + dc.Substring(8, 2);
-                
-                string da = line.Substring(50, 12);
-                da = da.Substring(0, 2) + "/" + da.Substring(2, 2) + "/" + da.Substring(4, 2) + ' ' + da.Substring(6, 2) + ':' + da.Substring(8, 2);
-                CompanhiaAerea c = new CompanhiaAerea();
-                while (line != null)
-                {
-                    c.RazaoSocial = line.Substring(0, 50);
-                    c.Cnpj = line.Substring(50, 14);
-                    c.DataAbertura = DateTime.Parse(da);
-                    c.UltimoVoo = DateTime.Parse(dv);
-                    c.DataCadastro = DateTime.Parse(dc);
-                    c.Situacao = char.Parse(line.Substring(75, 1));
-                    TodasCias.Add(c);
-                    Console.WriteLine(line);
-                    line = sr.ReadLine();
-                }
-                sr.Close();
-                Console.WriteLine("\nFim da Leitura do Arquivo.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-        }
-        #endregion
+                    if (!reader.HasRows)
+                    {
+                        Console.WriteLine("Cadastro não localizado!Aperte enter para continuar...");
+                        Console.ReadKey();
+                        return null;
+                    }
+                    else
+                    {
+                        while (reader.Read())
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"CPF: {reader.GetString(0)}");
+                            Console.WriteLine($"Nome: {reader.GetString(1)}");
+                            Console.WriteLine($"Data de Nascimento: {reader.GetDateTime(2)}");
+                            Console.WriteLine($"Sexo: {reader.GetString(3)}");
+                            Console.WriteLine($"Data Última Compra: {reader.GetDateTime(4)}");
+                            Console.WriteLine($"Data Cadastro: {reader.GetDateTime(5)}");
+                            Console.WriteLine($"Situação:  {reader.GetString(6)}");
 
+                            Console.WriteLine("\n\nAperte enter para confirmar.");
+                            Console.ReadKey();
+                           return new Passageiro(reader.GetString(0), reader.GetString(1), reader.GetDateTime(2), reader.GetString(3), reader.GetDateTime(4), reader.GetDateTime(5), reader.GetString(6));
+                        }
+                        conexaosql.Close();
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine($"Erro número {e.Number}, tente novamente.");
+            }
+            return null;
+
+
+
+
+
+
+        }
     }
 }

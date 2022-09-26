@@ -24,14 +24,14 @@ namespace OnTheFly_projeto
         {
 
         }
-        public void CadastrarItemVenda(PassagemVoo passagem)
-        {
-            ItemVenda itemVenda = new ItemVenda();
+        //public void CadastrarItemVenda(PassagemVoo passagem)
+        //{
+        //    ItemVenda itemVenda = new ItemVenda();
 
-            itemVenda.Id = GeraNumero(Id);
-            itemVenda.IdPassagem = passagem.IdVoo;
-            itemVenda.ValorUnitario = passagem.Valor;
-        }
+        //    itemVenda.Id = GeraNumero(Id);
+        //    itemVenda.IdPassagem = passagem.IdVoo;
+        //    itemVenda.ValorUnitario = passagem.Valor;
+        //}
         public int GeraNumero(int nro)
         {
 
